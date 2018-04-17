@@ -3,7 +3,6 @@ package com.sergon146.mobilization18.core.dal;
 import com.sergon146.mobilization18.core.api.PictureApiService;
 import com.sergon146.mobilization18.core.api.entities.PictureResponse;
 import com.sergon146.mobilization18.core.dal.repository.PictureRepository;
-import com.sergon146.mobilization18.utils.Const;
 
 import io.reactivex.Observable;
 
@@ -24,6 +23,6 @@ public class PictureRepositoryImpl implements PictureRepository {
     public Observable<PictureResponse> loadData(String keyword) {
 
         //todo
-        return apiService.getData(Const.API_KEY, keyword);
+        return apiService.getData(keyword);
     }
 }

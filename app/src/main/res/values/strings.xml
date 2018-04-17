@@ -3,6 +3,15 @@
 
     <string name="connection_error">Ошибка подключения!</string>
 
-    <string name="search_title">Введите запрос для поиска изображений:</string>
+    <string name="search_title">Найти изображения:</string>
     <string name="search">Поиск</string>
+    <string name="search_result">По запросу \"%1$s\" найдено %2$s</string>
+
+
+    <plurals name="hours_count_to_watch">
+        <item quantity="one">%1$d изображение</item>
+        <item quantity="few">%1$d изображения</item>
+        <item quantity="many">%1$d изображений</item>
+        <item quantity="other">%1$d изображений</item>
+    </plurals>
 </resources>

@@ -9,7 +9,8 @@ import com.sergon146.mobilization18.R;
 import com.sergon146.mobilization18.navigation.MainRouter;
 import com.sergon146.mobilization18.navigation.Screens;
 import com.sergon146.mobilization18.ui.base.BaseMvpActivity;
-import com.sergon146.mobilization18.ui.fragments.photolist.PhotoListFragment;
+import com.sergon146.mobilization18.ui.fragments.photo.photodetail.PhotoDetailFragment;
+import com.sergon146.mobilization18.ui.fragments.photo.photolist.PhotoListFragment;
 
 import javax.inject.Inject;
 
@@ -32,7 +33,9 @@ public class MainActivity extends BaseMvpActivity<MainPresenter> implements Main
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        router.showMainScreen();
+        if (savedInstanceState == null) {
+            router.showMainScreen();
+        }
     }
 
     @Override
@@ -47,13 +50,20 @@ public class MainActivity extends BaseMvpActivity<MainPresenter> implements Main
             case MAIN_SCREEN:
                 return PhotoListFragment.getInstance();
             case DETAIL_SCREEN:
-                return null;
+                int pos = (int) data;
+                return PhotoDetailFragment.getInstance(pos);
             default:
                 throw new RuntimeException("Unknown screen");
         }
     }
 
     @Override
-    public void setButtonText(String s) {
+    public void onBackPressed() {
+        int entryCount = getSupportFragmentManager().getBackStackEntryCount();
+        if (entryCount > 1) {
+            super.onBackPressed();
+        } else {
+            finish();
+        }
     }
 }

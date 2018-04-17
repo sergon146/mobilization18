@@ -8,7 +8,6 @@ import com.facebook.drawee.backends.pipeline.Fresco;
 import com.sergon146.mobilization18.core.Core;
 import com.sergon146.mobilization18.di.AppInjector;
 import com.sergon146.mobilization18.di.component.AppComponent;
-import com.sergon146.mobilization18.utils.Const;
 
 import javax.inject.Inject;
 
@@ -35,6 +34,10 @@ public class App extends Application implements HasActivityInjector {
         return instance.getResources();
     }
 
+    public static AppComponent getAppComponent() {
+        return AppInjector.getAppComponent();
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -45,12 +48,10 @@ public class App extends Application implements HasActivityInjector {
     }
 
     private void initCore() {
-        Core core = Core.initInstance(Const.ENDPOINT);
+        Resources res = getAppResources();
+        Core core = Core.initInstance(res.getString(R.string.pixbay_base_url),
+                res.getString(R.string.pixbay_api_key));
         core.initApi();
-    }
-
-    public static AppComponent getAppComponent() {
-        return AppInjector.getAppComponent();
     }
 
     @Override

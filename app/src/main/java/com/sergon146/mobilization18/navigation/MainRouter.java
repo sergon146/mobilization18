@@ -22,9 +22,9 @@ public class MainRouter extends BaseRouter {
         }
     }
 
-    public void showDetailScreen() {
+    public void showDetailScreen(Object data) {
         if (navigator != null) {
-            navigator.applyCommand(new Forward(Screens.DETAIL_SCREEN.name(), null));
+            navigator.applyCommand(new Forward(Screens.DETAIL_SCREEN.name(), data));
         }
     }
 
