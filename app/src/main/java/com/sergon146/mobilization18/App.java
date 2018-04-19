@@ -6,7 +6,7 @@ import android.content.res.Resources;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.sergon146.mobilization18.core.Core;
-import com.sergon146.mobilization18.di.AppInjector;
+import com.sergon146.mobilization18.di.base.AppInjector;
 import com.sergon146.mobilization18.di.component.AppComponent;
 
 import javax.inject.Inject;

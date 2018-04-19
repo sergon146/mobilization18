@@ -1,6 +1,6 @@
 package com.sergon146.mobilization18.business.usecase;
 
-import com.sergon146.mobilization18.business.contracts.PictureListUseCase;
+import com.sergon146.mobilization18.business.contracts.PictureDetailUseCase;
 import com.sergon146.mobilization18.core.api.entities.PictureResponse;
 import com.sergon146.mobilization18.core.dal.repository.PictureRepository;
 
@@ -8,14 +8,14 @@ import io.reactivex.Observable;
 
 /**
  * @author Sergon146 (sergon146@gmail.com).
- * @since 15.04.2018
+ * @since 19.04.2018
  */
 
-public class PhotoListUseCaseImpl implements PictureListUseCase {
+public class PictureDetailUseCaseImpl implements PictureDetailUseCase {
 
     private final PictureRepository pictureRepository;
 
-    public PhotoListUseCaseImpl(PictureRepository pictureRepository) {
+    public PictureDetailUseCaseImpl(PictureRepository pictureRepository) {
         this.pictureRepository = pictureRepository;
     }
 

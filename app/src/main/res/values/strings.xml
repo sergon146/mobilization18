@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Images Feed</string>
+    <string name="app_name">Picture Feed</string>
 
     <string name="connection_error">Ошибка подключения!</string>
 

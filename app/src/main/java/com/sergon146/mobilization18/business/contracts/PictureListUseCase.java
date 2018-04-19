@@ -9,7 +9,6 @@ import io.reactivex.Observable;
  * @since 15.04.2018
  */
 
-public interface PhotoListUseCase {
-
+public interface PictureListUseCase {
     Observable<PictureResponse> getData(String queryKeyword);
 }

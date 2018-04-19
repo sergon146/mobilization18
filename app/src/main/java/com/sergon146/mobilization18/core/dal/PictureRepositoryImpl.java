@@ -21,8 +21,6 @@ public class PictureRepositoryImpl implements PictureRepository {
 
     @Override
     public Observable<PictureResponse> loadData(String keyword) {
-
-        //todo
         return apiService.getData(keyword);
     }
 }

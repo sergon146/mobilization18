@@ -8,7 +8,7 @@ import android.widget.Toast;
 
 import com.sergon146.mobilization18.App;
 import com.sergon146.mobilization18.R;
-import com.sergon146.mobilization18.di.InjectableActivity;
+import com.sergon146.mobilization18.di.base.InjectableActivity;
 import com.sergon146.mobilization18.navigation.BaseNavigator;
 import com.sergon146.mobilization18.navigation.MainRouter;
 

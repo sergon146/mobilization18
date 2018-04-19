@@ -1,10 +1,9 @@
 package com.sergon146.mobilization18.core;
 
-import com.sergon146.mobilization18.App;
-import com.sergon146.mobilization18.R;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.sergon146.mobilization18.core.api.PictureApiService;
 import com.sergon146.mobilization18.core.rx.RxThreadCallAdapter;
-import com.sergon146.mobilization18.utils.Const;
 
 import java.util.Collections;
 import java.util.concurrent.TimeUnit;
@@ -18,6 +17,7 @@ import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.TlsVersion;
+import retrofit2.Converter;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -48,7 +48,7 @@ public class Core {
 
     public void initApi() {
         Retrofit.Builder retrofitBuilder = new Retrofit.Builder()
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(createGsonFactory())
                 .addCallAdapterFactory(new RxThreadCallAdapter(Schedulers.io()))
                 .baseUrl(endpoint);
 
@@ -56,6 +56,13 @@ public class Core {
                 .client(createClientBuilder().build())
                 .build()
                 .create(PictureApiService.class);
+    }
+
+    private Converter.Factory createGsonFactory() {
+        Gson gson = new GsonBuilder()
+                .excludeFieldsWithoutExposeAnnotation()
+                .create();
+        return GsonConverterFactory.create(gson);
     }
 
     private OkHttpClient.Builder createClientBuilder() {
@@ -76,9 +83,7 @@ public class Core {
                     .addQueryParameter("key", apiKey)
                     .build();
 
-            // Request customization: add request headers
-            Request.Builder requestBuilder = original.newBuilder()
-                    .url(url);
+            Request.Builder requestBuilder = original.newBuilder().url(url);
 
             Request request = requestBuilder.build();
             return chain.proceed(request);
