@@ -6,12 +6,19 @@ import android.support.v4.app.Fragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.sergon146.mobilization18.R;
+import com.sergon146.mobilization18.core.dal.dto.PicturesDto;
 import com.sergon146.mobilization18.navigation.MainRouter;
 import com.sergon146.mobilization18.navigation.Screens;
 import com.sergon146.mobilization18.ui.base.BaseMvpActivity;
-import com.sergon146.mobilization18.ui.fragments.photolist.PhotoListFragment;
+import com.sergon146.mobilization18.ui.fragments.picture.picturedetail.PictureDetailFragment;
+import com.sergon146.mobilization18.ui.fragments.picture.picturelist.PictureListFragment;
 
 import javax.inject.Inject;
+
+/**
+ * @author Sergon146 (sergon146@gmail.com).
+ * @since 08.04.2018
+ */
 
 public class MainActivity extends BaseMvpActivity<MainPresenter> implements MainView {
 
@@ -32,7 +39,9 @@ public class MainActivity extends BaseMvpActivity<MainPresenter> implements Main
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        router.showMainScreen();
+        if (savedInstanceState == null) {
+            router.showMainScreen();
+        }
     }
 
     @Override
@@ -45,15 +54,12 @@ public class MainActivity extends BaseMvpActivity<MainPresenter> implements Main
         Screens screen = Screens.valueOf(screenKey);
         switch (screen) {
             case MAIN_SCREEN:
-                return PhotoListFragment.getInstance();
+                return PictureListFragment.getInstance();
             case DETAIL_SCREEN:
-                return null;
+                PicturesDto pos = (PicturesDto) data;
+                return PictureDetailFragment.getInstance(pos);
             default:
                 throw new RuntimeException("Unknown screen");
         }
-    }
-
-    @Override
-    public void setButtonText(String s) {
     }
 }

@@ -10,16 +10,13 @@
 
 
     <style name="TextStyle">
-        <item name="android:textSize">14sp</item>
+        <item name="android:textSize">18sp</item>
         <item name="android:fontFamily">sans-serif-light</item>
         <item name="android:textStyle">normal</item>
         <item name="android:textColor">@color/charcoal_grey</item>
     </style>
 
-    <style name="TextTitle">
-        <item name="android:textSize">18sp</item>
-        <item name="android:fontFamily">sans-serif-light</item>
-        <item name="android:textStyle">normal</item>
-        <item name="android:textColor">@color/charcoal_grey</item>
+    <style name="ProgressBar" parent="AppTheme">
+        <item name="colorAccent">@color/colorPrimary</item>
     </style>
 </resources>

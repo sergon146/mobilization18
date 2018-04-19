@@ -1,10 +1,10 @@
 package com.sergon146.mobilization18.di.features;
 
+import com.sergon146.mobilization18.business.contracts.PictureListUseCase;
 import com.sergon146.mobilization18.core.dal.repository.PictureRepository;
-import com.sergon146.mobilization18.business.contracts.PhotoListUseCase;
 import com.sergon146.mobilization18.business.usecase.PhotoListUseCaseImpl;
 import com.sergon146.mobilization18.navigation.MainRouter;
-import com.sergon146.mobilization18.ui.fragments.photolist.PhotoListPresenter;
+import com.sergon146.mobilization18.ui.fragments.picture.picturelist.PictureListPresenter;
 
 import dagger.Module;
 import dagger.Provides;
@@ -15,16 +15,15 @@ import dagger.Provides;
  */
 
 @Module
-public abstract class PhotoListModule {
+public abstract class PictureListModule {
 
     @Provides
-    static PhotoListUseCase provideMainUseCase(PictureRepository pictureRepository) {
+    static PictureListUseCase providePhotoListUseCase(PictureRepository pictureRepository) {
         return new PhotoListUseCaseImpl(pictureRepository);
     }
 
     @Provides
-    static PhotoListPresenter provideMainPresenter(MainRouter router, PhotoListUseCase useCase) {
-        return new PhotoListPresenter(router, useCase);
+    static PictureListPresenter providePhotoPresenter(MainRouter router, PictureListUseCase useCase) {
+        return new PictureListPresenter(router, useCase);
     }
-
 }

@@ -1,4 +1,4 @@
-package com.sergon146.mobilization18.ui.fragments.photolist;
+package com.sergon146.mobilization18.ui.fragments.picture.picturelist;
 
 import com.arellomobile.mvp.viewstate.strategy.AddToEndSingleStrategy;
 import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;
@@ -13,10 +13,19 @@ import java.util.List;
  */
 
 @StateStrategyType(AddToEndSingleStrategy.class)
-public interface PhotoListView extends BaseMvpView {
+public interface PictureListView extends BaseMvpView {
     @StateStrategyType(AddToEndSingleStrategy.class)
     void showPictures(List<Picture> pictures);
 
     @StateStrategyType(AddToEndSingleStrategy.class)
-    void showEmptyMessages();
+    void showSearchResultCount(int count);
+
+    @StateStrategyType(AddToEndSingleStrategy.class)
+    void hideSearchResultCount();
+
+    @StateStrategyType(AddToEndSingleStrategy.class)
+    void showThrobber();
+
+    @StateStrategyType(AddToEndSingleStrategy.class)
+    void hideThrobber();
 }

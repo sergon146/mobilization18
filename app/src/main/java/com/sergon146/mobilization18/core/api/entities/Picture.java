@@ -1,76 +1,97 @@
 package com.sergon146.mobilization18.core.api.entities;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Picture {
+public class Picture implements Parcelable {
+    public static final Creator<Picture> CREATOR = new Creator<Picture>() {
+        @Override
+        public Picture createFromParcel(Parcel in) {
+            return new Picture(in);
+        }
+
+        @Override
+        public Picture[] newArray(int size) {
+            return new Picture[size];
+        }
+    };
 
     @SerializedName("largeImageURL")
     @Expose
     private String largeImageURL;
     @SerializedName("webformatHeight")
     @Expose
-    private Integer webformatHeight;
+    private int webformatHeight;
     @SerializedName("webformatWidth")
     @Expose
-    private Integer webformatWidth;
-    @SerializedName("likes")
-    @Expose
-    private Integer likes;
+    private int webformatWidth;
     @SerializedName("imageWidth")
     @Expose
-    private Integer imageWidth;
+    private int imageWidth;
     @SerializedName("id")
     @Expose
-    private Integer id;
-    @SerializedName("user_id")
-    @Expose
-    private Integer userId;
-    @SerializedName("views")
-    @Expose
-    private Integer views;
-    @SerializedName("comments")
-    @Expose
-    private Integer comments;
-    @SerializedName("pageURL")
-    @Expose
-    private String pageURL;
+    private int id;
     @SerializedName("imageHeight")
     @Expose
-    private Integer imageHeight;
+    private int imageHeight;
     @SerializedName("webformatURL")
     @Expose
     private String webformatURL;
-    @SerializedName("type")
-    @Expose
-    private String type;
     @SerializedName("previewHeight")
     @Expose
-    private Integer previewHeight;
-    @SerializedName("tags")
-    @Expose
-    private String tags;
-    @SerializedName("downloads")
-    @Expose
-    private Integer downloads;
-    @SerializedName("user")
-    @Expose
-    private String user;
-    @SerializedName("favorites")
-    @Expose
-    private Integer favorites;
+    private int previewHeight;
     @SerializedName("imageSize")
     @Expose
-    private Integer imageSize;
+    private int imageSize;
     @SerializedName("previewWidth")
     @Expose
-    private Integer previewWidth;
+    private int previewWidth;
     @SerializedName("userImageURL")
     @Expose
     private String userImageURL;
     @SerializedName("previewURL")
     @Expose
     private String previewURL;
+
+    //ignore fields
+    //@SerializedName("likes")
+    //private int likes;
+    //@SerializedName("user_id")
+    //private int userId;
+    //@SerializedName("views")
+    //private int views;
+    //@SerializedName("comments")
+    //private int comments;
+    //@SerializedName("pageURL")
+    //private String pageURL;
+    //@SerializedName("type")
+    //private String type;
+    //@SerializedName("tags")
+    //private String tags;
+    //@SerializedName("downloads")
+    //private int downloads;
+    //@SerializedName("user")
+    //private String user;
+    //@SerializedName("favorites")
+    //private int favorites;
+
+    protected Picture(Parcel in) {
+        largeImageURL = in.readString();
+        webformatHeight = in.readInt();
+        webformatWidth = in.readInt();
+        imageWidth = in.readInt();
+        id = in.readInt();
+        imageHeight = in.readInt();
+        webformatURL = in.readString();
+        previewHeight = in.readInt();
+        imageSize = in.readInt();
+        previewWidth = in.readInt();
+        userImageURL = in.readString();
+        previewURL = in.readString();
+    }
 
     public String getLargeImageURL() {
         return largeImageURL;
@@ -80,83 +101,43 @@ public class Picture {
         this.largeImageURL = largeImageURL;
     }
 
-    public Integer getWebformatHeight() {
+    public int getWebformatHeight() {
         return webformatHeight;
     }
 
-    public void setWebformatHeight(Integer webformatHeight) {
+    public void setWebformatHeight(int webformatHeight) {
         this.webformatHeight = webformatHeight;
     }
 
-    public Integer getWebformatWidth() {
+    public int getWebformatWidth() {
         return webformatWidth;
     }
 
-    public void setWebformatWidth(Integer webformatWidth) {
+    public void setWebformatWidth(int webformatWidth) {
         this.webformatWidth = webformatWidth;
     }
 
-    public Integer getLikes() {
-        return likes;
-    }
-
-    public void setLikes(Integer likes) {
-        this.likes = likes;
-    }
-
-    public Integer getImageWidth() {
+    public int getImageWidth() {
         return imageWidth;
     }
 
-    public void setImageWidth(Integer imageWidth) {
+    public void setImageWidth(int imageWidth) {
         this.imageWidth = imageWidth;
     }
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
-
-    public Integer getViews() {
-        return views;
-    }
-
-    public void setViews(Integer views) {
-        this.views = views;
-    }
-
-    public Integer getComments() {
-        return comments;
-    }
-
-    public void setComments(Integer comments) {
-        this.comments = comments;
-    }
-
-    public String getPageURL() {
-        return pageURL;
-    }
-
-    public void setPageURL(String pageURL) {
-        this.pageURL = pageURL;
-    }
-
-    public Integer getImageHeight() {
+    public int getImageHeight() {
         return imageHeight;
     }
 
-    public void setImageHeight(Integer imageHeight) {
+    public void setImageHeight(int imageHeight) {
         this.imageHeight = imageHeight;
     }
 
@@ -168,67 +149,27 @@ public class Picture {
         this.webformatURL = webformatURL;
     }
 
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public Integer getPreviewHeight() {
+    public int getPreviewHeight() {
         return previewHeight;
     }
 
-    public void setPreviewHeight(Integer previewHeight) {
+    public void setPreviewHeight(int previewHeight) {
         this.previewHeight = previewHeight;
     }
 
-    public String getTags() {
-        return tags;
-    }
-
-    public void setTags(String tags) {
-        this.tags = tags;
-    }
-
-    public Integer getDownloads() {
-        return downloads;
-    }
-
-    public void setDownloads(Integer downloads) {
-        this.downloads = downloads;
-    }
-
-    public String getUser() {
-        return user;
-    }
-
-    public void setUser(String user) {
-        this.user = user;
-    }
-
-    public Integer getFavorites() {
-        return favorites;
-    }
-
-    public void setFavorites(Integer favorites) {
-        this.favorites = favorites;
-    }
-
-    public Integer getImageSize() {
+    public int getImageSize() {
         return imageSize;
     }
 
-    public void setImageSize(Integer imageSize) {
+    public void setImageSize(int imageSize) {
         this.imageSize = imageSize;
     }
 
-    public Integer getPreviewWidth() {
+    public int getPreviewWidth() {
         return previewWidth;
     }
 
-    public void setPreviewWidth(Integer previewWidth) {
+    public void setPreviewWidth(int previewWidth) {
         this.previewWidth = previewWidth;
     }
 
@@ -248,4 +189,24 @@ public class Picture {
         this.previewURL = previewURL;
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(largeImageURL);
+        parcel.writeInt(webformatHeight);
+        parcel.writeInt(webformatWidth);
+        parcel.writeInt(imageWidth);
+        parcel.writeInt(id);
+        parcel.writeInt(imageHeight);
+        parcel.writeString(webformatURL);
+        parcel.writeInt(previewHeight);
+        parcel.writeInt(imageSize);
+        parcel.writeInt(previewWidth);
+        parcel.writeString(userImageURL);
+        parcel.writeString(previewURL);
+    }
 }

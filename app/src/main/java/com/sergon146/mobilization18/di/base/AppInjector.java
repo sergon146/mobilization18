@@ -1,4 +1,4 @@
-package com.sergon146.mobilization18.di;
+package com.sergon146.mobilization18.di.base;
 
 import android.app.Activity;
 import android.app.Application;

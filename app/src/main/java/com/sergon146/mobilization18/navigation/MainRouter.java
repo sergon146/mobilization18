@@ -1,9 +1,12 @@
 package com.sergon146.mobilization18.navigation;
 
+import com.sergon146.mobilization18.core.dal.dto.PicturesDto;
+
 import ru.terrakok.cicerone.BaseRouter;
 import ru.terrakok.cicerone.Navigator;
 import ru.terrakok.cicerone.commands.Back;
 import ru.terrakok.cicerone.commands.Forward;
+import ru.terrakok.cicerone.commands.Replace;
 
 /**
  * @author Sergon146 (sergon146@gmail.com).
@@ -18,13 +21,13 @@ public class MainRouter extends BaseRouter {
 
     public void showMainScreen() {
         if (navigator != null) {
-            navigator.applyCommand(new Forward(Screens.MAIN_SCREEN.name(), null));
+            navigator.applyCommand(new Replace(Screens.MAIN_SCREEN.name(), null));
         }
     }
 
-    public void showDetailScreen() {
+    public void showDetailScreen(PicturesDto data) {
         if (navigator != null) {
-            navigator.applyCommand(new Forward(Screens.DETAIL_SCREEN.name(), null));
+            navigator.applyCommand(new Forward(Screens.DETAIL_SCREEN.name(), data));
         }
     }
 
