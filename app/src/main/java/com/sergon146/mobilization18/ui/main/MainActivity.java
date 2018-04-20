@@ -56,8 +56,8 @@ public class MainActivity extends BaseMvpActivity<MainPresenter> implements Main
             case MAIN_SCREEN:
                 return PictureListFragment.getInstance();
             case DETAIL_SCREEN:
-                PicturesDto pos = (PicturesDto) data;
-                return PictureDetailFragment.getInstance(pos);
+                PicturesDto dto = (PicturesDto) data;
+                return PictureDetailFragment.getInstance(dto);
             default:
                 throw new RuntimeException("Unknown screen");
         }

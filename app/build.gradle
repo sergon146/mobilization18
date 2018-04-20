@@ -51,10 +51,12 @@ dependencies {
     implementation 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
-
+    //image loading
     implementation 'com.facebook.fresco:fresco:1.7.1'
     implementation "com.facebook.fresco:imagepipeline-okhttp3:1.7.1"
-
+    // tools - serialization etc.
+    implementation 'org.parceler:parceler-api:1.1.10'
+    annotationProcessor "org.parceler:parceler:1.0.3"
     //navigation
     implementation 'ru.terrakok.cicerone:cicerone:2.1.0'
     //the holy grail
