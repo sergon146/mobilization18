@@ -32,9 +32,8 @@ public class PictureListPresenter extends BasePresenter<PictureListView> {
     }
 
     public void loadFirstPage(String keyword) {
-        getViewState().hideSearchResultCount();
-        getViewState().showThrobber();
         bind(onUi(useCase.getData(keyword))
+                .doOnSubscribe(d -> getViewState().showThrobber())
                 .doOnTerminate(() -> getViewState().hideThrobber())
                 .subscribe(data -> {
                             this.pictures.clear();

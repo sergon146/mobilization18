@@ -1,6 +1,5 @@
 package com.sergon146.mobilization18.ui.fragments.picture.picturedetail;
 
-
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
@@ -23,6 +22,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * @author Sergon146 (sergon146@gmail.com).
@@ -32,6 +32,11 @@ import butterknife.ButterKnife;
 public class PictureDetailFragment extends BaseMvpFragment<PictureDetailPresenter>
         implements PictureDetailView {
     private static final String PICTURES_DTO_ARG = "PICTURES_DTO_ARG";
+
+    @BindView(R.id.arrow_left)
+    View arrowLeft;
+    @BindView(R.id.arrow_right)
+    View arrowRight;
 
     @Inject
     @InjectPresenter
@@ -81,6 +86,16 @@ public class PictureDetailFragment extends BaseMvpFragment<PictureDetailPresente
         pager.setAdapter(adapter);
         pager.setCurrentItem(currentPosition);
         return view;
+    }
+
+    @OnClick(R.id.arrow_left)
+    public void onArrowLeftClick() {
+        pager.setCurrentItem(pager.getCurrentItem() - 1);
+    }
+
+    @OnClick(R.id.arrow_right)
+    public void onArrowRightClick() {
+        pager.setCurrentItem(pager.getCurrentItem() + 1);
     }
 
     @Override
