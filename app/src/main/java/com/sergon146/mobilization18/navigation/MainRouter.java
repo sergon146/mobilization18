@@ -1,6 +1,7 @@
 package com.sergon146.mobilization18.navigation;
 
-import com.sergon146.mobilization18.core.dal.dto.PicturesDto;
+
+import com.sergon146.business.model.PicturesList;
 
 import ru.terrakok.cicerone.BaseRouter;
 import ru.terrakok.cicerone.Navigator;
@@ -25,7 +26,7 @@ public class MainRouter extends BaseRouter {
         }
     }
 
-    public void showDetailScreen(PicturesDto data) {
+    public void showDetailScreen(PicturesList data) {
         if (navigator != null) {
             navigator.applyCommand(new Forward(Screens.DETAIL_SCREEN.name(), data));
         }

@@ -2,7 +2,7 @@ package com.sergon146.mobilization18.ui.fragments.picture.picturelist;
 
 import com.arellomobile.mvp.viewstate.strategy.AddToEndSingleStrategy;
 import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;
-import com.sergon146.mobilization18.core.api.entities.Picture;
+import com.sergon146.business.model.Picture;
 import com.sergon146.mobilization18.ui.base.BaseMvpView;
 
 import java.util.List;

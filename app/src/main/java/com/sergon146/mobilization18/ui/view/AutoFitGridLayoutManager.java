@@ -8,7 +8,7 @@ import android.util.AttributeSet;
 import android.view.ViewGroup;
 
 import com.sergon146.mobilization18.R;
-import com.sergon146.mobilization18.utils.Const;
+import com.sergon146.core.utils.Const;
 
 /**
  * @author Sergon146 (sergon146@gmail.com).

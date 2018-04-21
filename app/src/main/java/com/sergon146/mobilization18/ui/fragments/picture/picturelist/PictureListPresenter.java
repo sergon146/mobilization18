@@ -1,12 +1,12 @@
 package com.sergon146.mobilization18.ui.fragments.picture.picturelist;
 
 import com.arellomobile.mvp.InjectViewState;
-import com.sergon146.mobilization18.business.contracts.PictureListUseCase;
-import com.sergon146.mobilization18.core.api.entities.Picture;
-import com.sergon146.mobilization18.core.dal.dto.PicturesDto;
+import com.sergon146.business.model.Picture;
+import com.sergon146.business.model.PicturesList;
+import com.sergon146.business.contracts.PictureListUseCase;
 import com.sergon146.mobilization18.navigation.MainRouter;
 import com.sergon146.mobilization18.ui.base.BasePresenter;
-import com.sergon146.mobilization18.utils.Logger;
+import com.sergon146.core.utils.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,7 +52,7 @@ public class PictureListPresenter extends BasePresenter<PictureListView> {
         return "PhotoList";
     }
 
-    public void openDetail(PicturesDto picturesDto) {
+    public void openDetail(PicturesList picturesDto) {
         getRouter().showDetailScreen(picturesDto);
     }
 }
