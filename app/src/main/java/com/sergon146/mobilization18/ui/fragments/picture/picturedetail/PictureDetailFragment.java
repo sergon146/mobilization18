@@ -6,15 +6,16 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
+import com.sergon146.business.model.Picture;
+import com.sergon146.business.model.PicturesList;
 import com.sergon146.mobilization18.R;
-import com.sergon146.mobilization18.core.api.entities.Picture;
-import com.sergon146.mobilization18.core.dal.dto.PicturesDto;
 import com.sergon146.mobilization18.ui.base.BaseMvpFragment;
 import com.sergon146.mobilization18.ui.fragments.picture.picturedetail.adapter.PicturePageAdapter;
+
+import org.parceler.Parcels;
 
 import java.util.List;
 
@@ -42,10 +43,10 @@ public class PictureDetailFragment extends BaseMvpFragment<PictureDetailPresente
     private int currentPosition;
     private List<Picture> pictures;
 
-    public static PictureDetailFragment getInstance(PicturesDto picturesDto) {
+    public static PictureDetailFragment getInstance(PicturesList picturesDto) {
         PictureDetailFragment fragment = new PictureDetailFragment();
         Bundle args = new Bundle();
-        args.putParcelable(PICTURES_DTO_ARG, picturesDto);
+        args.putParcelable(PICTURES_DTO_ARG, Parcels.wrap(picturesDto));
         fragment.setArguments(args);
         return fragment;
     }
@@ -60,13 +61,13 @@ public class PictureDetailFragment extends BaseMvpFragment<PictureDetailPresente
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            PicturesDto picturesDto = getArguments().getParcelable(PICTURES_DTO_ARG);
-            if (picturesDto == null) {
+            PicturesList dto = Parcels.unwrap(getArguments().getParcelable(PICTURES_DTO_ARG));
+            if (dto == null) {
                 return;
             }
 
-            currentPosition = picturesDto.getPosition();
-            pictures = picturesDto.getPictures();
+            currentPosition = dto.getPosition();
+            pictures = dto.getPictures();
         }
     }
 

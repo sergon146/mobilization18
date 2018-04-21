@@ -3,14 +3,11 @@ package com.sergon146.mobilization18.ui.fragments.picture.picturedetail.adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 
-import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.drawable.ProgressBarDrawable;
-import com.facebook.drawee.interfaces.DraweeController;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.sergon146.business.model.Picture;
 import com.sergon146.mobilization18.R;
-import com.sergon146.mobilization18.core.api.entities.Picture;
 import com.sergon146.mobilization18.ui.view.components.RecycledPageAdapter;
 
 import java.util.List;

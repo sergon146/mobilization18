@@ -5,8 +5,8 @@ import android.support.v4.app.Fragment;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
+import com.sergon146.business.model.PicturesList;
 import com.sergon146.mobilization18.R;
-import com.sergon146.mobilization18.core.dal.dto.PicturesDto;
 import com.sergon146.mobilization18.navigation.MainRouter;
 import com.sergon146.mobilization18.navigation.Screens;
 import com.sergon146.mobilization18.ui.base.BaseMvpActivity;
@@ -56,8 +56,8 @@ public class MainActivity extends BaseMvpActivity<MainPresenter> implements Main
             case MAIN_SCREEN:
                 return PictureListFragment.getInstance();
             case DETAIL_SCREEN:
-                PicturesDto pos = (PicturesDto) data;
-                return PictureDetailFragment.getInstance(pos);
+                PicturesList dto = (PicturesList) data;
+                return PictureDetailFragment.getInstance(dto);
             default:
                 throw new RuntimeException("Unknown screen");
         }

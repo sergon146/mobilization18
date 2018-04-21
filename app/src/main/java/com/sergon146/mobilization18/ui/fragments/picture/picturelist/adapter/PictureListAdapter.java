@@ -6,9 +6,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.sergon146.business.model.Picture;
+import com.sergon146.business.model.PicturesList;
 import com.sergon146.mobilization18.R;
-import com.sergon146.mobilization18.core.api.entities.Picture;
-import com.sergon146.mobilization18.core.dal.dto.PicturesDto;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,7 +59,7 @@ public class PictureListAdapter extends RecyclerView.Adapter<PictureListAdapter.
 
 
     public interface PictureClickListener {
-        void onClick(PicturesDto picturesDto);
+        void onClick(PicturesList picturesDto);
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
@@ -72,7 +72,7 @@ public class PictureListAdapter extends RecyclerView.Adapter<PictureListAdapter.
         }
 
         void bind(int pos, Picture picture) {
-            itemView.setOnClickListener(v -> listener.onClick(new PicturesDto(pictures, pos)));
+            itemView.setOnClickListener(v -> listener.onClick(new PicturesList(pictures, pos)));
 
             String url = picture.getWebformatURL();
             if (url == null || url.isEmpty()) {

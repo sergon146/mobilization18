@@ -1,10 +1,8 @@
 package com.sergon146.mobilization18.ui.base;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.widget.Toast;
 
-import com.sergon146.mobilization18.R;
 import com.sergon146.mobilization18.di.base.Injectable;
 import com.sergon146.mobilization18.di.base.InjectableFragment;
 import com.sergon146.mobilization18.ui.LogNamed;
@@ -45,7 +43,6 @@ public abstract class BaseMvpFragment<Presenter extends BasePresenter> extends I
 
     @Override
     public void showConnectionError() {
-        Toast.makeText(getActivity(), R.string.connection_error, Toast.LENGTH_SHORT).show();
     }
 
     @Override

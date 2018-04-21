@@ -4,10 +4,10 @@ import android.app.Application;
 import android.content.Context;
 import android.content.res.Resources;
 
-import com.sergon146.mobilization18.core.Core;
-import com.sergon146.mobilization18.core.api.PictureApiService;
-import com.sergon146.mobilization18.core.dal.PictureRepositoryImpl;
-import com.sergon146.mobilization18.core.dal.repository.PictureRepository;
+import com.sergon146.core.Core;
+import com.sergon146.core.api.PictureApiService;
+import com.sergon146.core.repository.PictureRepositoryImpl;
+import com.sergon146.business.repository.PictureRepository;
 import com.sergon146.mobilization18.ui.main.MainActivity;
 
 import javax.inject.Singleton;

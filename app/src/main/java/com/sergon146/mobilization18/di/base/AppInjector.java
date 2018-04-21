@@ -13,7 +13,7 @@ import com.sergon146.mobilization18.BuildConfig;
 import com.sergon146.mobilization18.di.component.AppComponent;
 import com.sergon146.mobilization18.di.component.DaggerAppComponent;
 import com.sergon146.mobilization18.ui.LogNamed;
-import com.sergon146.mobilization18.utils.Logger;
+import com.sergon146.core.utils.Logger;
 
 import dagger.android.AndroidInjection;
 import dagger.android.support.AndroidSupportInjection;

@@ -13,12 +13,12 @@ import android.widget.TextView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
+import com.sergon146.business.model.Picture;
 import com.sergon146.mobilization18.R;
-import com.sergon146.mobilization18.core.api.entities.Picture;
 import com.sergon146.mobilization18.ui.base.BaseMvpFragment;
 import com.sergon146.mobilization18.ui.fragments.picture.picturelist.adapter.PictureListAdapter;
 import com.sergon146.mobilization18.ui.view.AutoFitGridLayoutManager;
-import com.sergon146.mobilization18.utils.ViewUitl;
+import com.sergon146.core.utils.ViewUitl;
 
 import java.util.List;
 

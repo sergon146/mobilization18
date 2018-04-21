@@ -1,8 +1,8 @@
 package com.sergon146.mobilization18.di.features;
 
-import com.sergon146.mobilization18.business.contracts.PictureDetailUseCase;
-import com.sergon146.mobilization18.business.usecase.PictureDetailUseCaseImpl;
-import com.sergon146.mobilization18.core.dal.repository.PictureRepository;
+import com.sergon146.business.repository.PictureRepository;
+import com.sergon146.business.contracts.PictureDetailUseCase;
+import com.sergon146.business.usecase.PictureDetailUseCaseImpl;
 import com.sergon146.mobilization18.navigation.MainRouter;
 import com.sergon146.mobilization18.ui.fragments.picture.picturedetail.PictureDetailPresenter;
 
