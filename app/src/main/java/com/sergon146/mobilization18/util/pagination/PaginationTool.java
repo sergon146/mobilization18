@@ -38,7 +38,7 @@ public class PaginationTool<T> {
     // for first start of items loading then on RecyclerView there are not items and no scrolling
     private static final int EMPTY_LIST_ITEMS_COUNT = 0;
     // default limit for requests
-    private static final int UPDATE_LIMIT = 2;
+    private static final int UPDATE_LIMIT = 4;
     // default max attempts to retry loading request
     private static final int MAX_ATTEMPTS_TO_RETRY_LOADING = 3;
 
@@ -67,15 +67,15 @@ public class PaginationTool<T> {
     public Observable<T> getPagingObservable() {
         int startNumberOfRetryAttempt = 0;
         return getScrollObservable(recyclerView, emptyListCount)
-                .subscribeOn(AndroidSchedulers.mainThread())
-                .distinctUntilChanged()
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnNext(s -> pagingListener.showTrobber())
-                .doOnTerminate(() -> pagingListener.hideTrobber())
-                .observeOn(Schedulers.from(BackgroundExecutor.getSafeBackgroundExecutor()))
-                .switchMap(offset ->
-                        getPagingObservable(pagingListener, pagingListener.onNextPage(offset),
-                                startNumberOfRetryAttempt, offset, retryCount));
+            .subscribeOn(AndroidSchedulers.mainThread())
+            .distinctUntilChanged()
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnNext(s -> pagingListener.showTrobber())
+            .doOnTerminate(() -> pagingListener.hideTrobber())
+            .observeOn(Schedulers.from(BackgroundExecutor.getSafeBackgroundExecutor()))
+            .switchMap(offset ->
+                getPagingObservable(pagingListener, pagingListener.onNextPage(offset),
+                    startNumberOfRetryAttempt, offset, retryCount));
     }
 
     private Observable<T> getPagingObservable(PagingListener<T> listener,
@@ -88,7 +88,7 @@ public class PaginationTool<T> {
             if (numberOfAttemptToRetry < retryCount) {
                 int attemptToRetryInc = numberOfAttemptToRetry + 1;
                 return getPagingObservable(listener, listener.onNextPage(offset),
-                        attemptToRetryInc, offset, retryCount);
+                    attemptToRetryInc, offset, retryCount);
             } else {
                 return Observable.error(throwable);
             }
@@ -110,16 +110,16 @@ public class PaginationTool<T> {
             emitter.setCancellable(() -> recyclerView.removeOnScrollListener(sl));
 
             if ((itemsCounter != null && itemsCounter.getItems() == emptyListCount) ||
-                    recyclerView.getAdapter().getItemCount() == emptyListCount) {
+                recyclerView.getAdapter().getItemCount() == emptyListCount) {
                 int offset;
                 if (itemsCounter != null) {
                     offset = emptyListCountPlusToOffset
-                            ? itemsCounter.getItems()
-                            : itemsCounter.getItems() - emptyListCount;
+                        ? itemsCounter.getItems()
+                        : itemsCounter.getItems() - emptyListCount;
                 } else {
                     offset = emptyListCountPlusToOffset
-                            ? recyclerView.getAdapter().getItemCount()
-                            : recyclerView.getAdapter().getItemCount() - emptyListCount;
+                        ? recyclerView.getAdapter().getItemCount()
+                        : recyclerView.getAdapter().getItemCount() - emptyListCount;
                 }
                 emitter.onNext(offset);
             }
@@ -132,19 +132,18 @@ public class PaginationTool<T> {
         }
 
         int position = getLastVisibleItemPosition(recyclerView);
-        int updatePosition = recyclerView.getAdapter().getItemCount()
-                - UPDATE_LIMIT;
+        int updatePosition = recyclerView.getAdapter().getItemCount() - 4 - (UPDATE_LIMIT / 2);
         if (position >= updatePosition
-                && (total == 0 || position < total)) {
+            && (total == 0 || position < total) && total != itemsCounter.getItems()) {
             int offset;
             if (itemsCounter != null) {
                 offset = emptyListCountPlusToOffset
-                        ? itemsCounter.getItems()
-                        : itemsCounter.getItems() - emptyListCount;
+                    ? itemsCounter.getItems()
+                    : itemsCounter.getItems() - emptyListCount;
             } else {
                 offset = emptyListCountPlusToOffset
-                        ? recyclerView.getAdapter().getItemCount()
-                        : recyclerView.getAdapter().getItemCount() - emptyListCount;
+                    ? recyclerView.getAdapter().getItemCount()
+                    : recyclerView.getAdapter().getItemCount() - emptyListCount;
             }
             emitter.onNext(offset);
         }
@@ -153,14 +152,14 @@ public class PaginationTool<T> {
     private int getLastVisibleItemPosition(RecyclerView recyclerView) {
         Class recyclerViewLMClass = recyclerView.getLayoutManager().getClass();
         if (recyclerViewLMClass == LinearLayoutManager.class
-                || LinearLayoutManager.class.isAssignableFrom(recyclerViewLMClass)) {
+            || LinearLayoutManager.class.isAssignableFrom(recyclerViewLMClass)) {
             LinearLayoutManager linearLayoutManager
-                    = (LinearLayoutManager) recyclerView.getLayoutManager();
+                = (LinearLayoutManager) recyclerView.getLayoutManager();
             return linearLayoutManager.findLastVisibleItemPosition();
         } else if (recyclerViewLMClass == StaggeredGridLayoutManager.class
-                || StaggeredGridLayoutManager.class.isAssignableFrom(recyclerViewLMClass)) {
+            || StaggeredGridLayoutManager.class.isAssignableFrom(recyclerViewLMClass)) {
             StaggeredGridLayoutManager staggeredGridLayoutManager
-                    = (StaggeredGridLayoutManager) recyclerView.getLayoutManager();
+                = (StaggeredGridLayoutManager) recyclerView.getLayoutManager();
             int[] into = staggeredGridLayoutManager.findLastVisibleItemPositions(null);
             List<Integer> intoList = new ArrayList<>();
             for (int i : into) {
@@ -169,7 +168,7 @@ public class PaginationTool<T> {
             return Collections.max(intoList);
         }
         throw new PagingException("Unknown LayoutManager class: "
-                + recyclerViewLMClass.toString());
+            + recyclerViewLMClass.toString());
     }
 
     public interface LoadedItemsCounter {

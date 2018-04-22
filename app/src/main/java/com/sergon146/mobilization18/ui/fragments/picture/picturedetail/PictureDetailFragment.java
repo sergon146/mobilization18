@@ -85,6 +85,7 @@ public class PictureDetailFragment extends BaseMvpFragment<PictureDetailPresente
         ButterKnife.bind(this, view);
 
         setupPicturePager();
+        pageChanged(currentPosition);
         return view;
     }
 

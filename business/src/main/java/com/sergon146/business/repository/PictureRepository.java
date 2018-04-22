@@ -14,4 +14,6 @@ import io.reactivex.Observable;
 public interface PictureRepository {
 
     Observable<PicturesList> loadData(String keyword);
+
+    Observable<PicturesList> loadPage(String queryKeyword, int page);
 }

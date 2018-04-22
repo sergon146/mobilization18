@@ -14,12 +14,11 @@ import android.widget.TextView;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.sergon146.business.model.Picture;
-import com.sergon146.business.model.PicturesList;
+import com.sergon146.core.utils.ViewUitl;
 import com.sergon146.mobilization18.R;
 import com.sergon146.mobilization18.ui.base.BaseMvpFragment;
 import com.sergon146.mobilization18.ui.fragments.picture.picturelist.adapter.PictureListAdapter;
 import com.sergon146.mobilization18.ui.view.AutoFitGridLayoutManager;
-import com.sergon146.core.utils.ViewUitl;
 
 import java.util.List;
 
@@ -90,7 +89,7 @@ public class PictureListFragment extends BaseMvpFragment<PictureListPresenter>
     private void initRecycler() {
         adapter = new PictureListAdapter(pic -> getPresenter().openDetail(pic));
         recyclerView.setAdapter(adapter);
-        recyclerView.setHasFixedSize(true);
+//        recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new AutoFitGridLayoutManager(getContext(), recyclerView));
     }
 
@@ -140,6 +139,11 @@ public class PictureListFragment extends BaseMvpFragment<PictureListPresenter>
     }
 
     @Override
+    public void prepareRecycler() {
+        getPresenter().preparePagination(recyclerView);
+    }
+
+    @Override
     public void showSearchResultCount(int count) {
         searchResult.setVisibility(View.VISIBLE);
         searchResult.setText(getResources().getString(R.string.search_result, keyword,
@@ -159,5 +163,10 @@ public class PictureListFragment extends BaseMvpFragment<PictureListPresenter>
     @Override
     public void hideThrobber() {
         throbber.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void addPictures(List<Picture> pictures) {
+        adapter.addItems(pictures);
     }
 }

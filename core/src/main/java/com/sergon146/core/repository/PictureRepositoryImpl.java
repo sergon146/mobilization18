@@ -27,4 +27,9 @@ public class PictureRepositoryImpl implements PictureRepository {
         return apiService.getData(keyword)
                 .map(t -> pictureListMapper.from(t));
     }
+
+    @Override
+    public Observable<PicturesList> loadPage(String queryKeyword, int page) {
+        return apiService.getPage(queryKeyword, page).map(t -> pictureListMapper.from(t));
+    }
 }

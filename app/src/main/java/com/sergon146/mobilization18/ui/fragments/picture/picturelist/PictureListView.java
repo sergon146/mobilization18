@@ -18,6 +18,9 @@ public interface PictureListView extends BaseMvpView {
     void showPictures(List<Picture> pictures);
 
     @StateStrategyType(AddToEndSingleStrategy.class)
+    void prepareRecycler();
+
+    @StateStrategyType(AddToEndSingleStrategy.class)
     void showSearchResultCount(int count);
 
     @StateStrategyType(AddToEndSingleStrategy.class)
@@ -28,4 +31,7 @@ public interface PictureListView extends BaseMvpView {
 
     @StateStrategyType(AddToEndSingleStrategy.class)
     void hideThrobber();
+
+    @StateStrategyType(AddToEndSingleStrategy.class)
+    void addPictures(List<Picture> pictures);
 }

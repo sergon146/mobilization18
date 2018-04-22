@@ -24,4 +24,9 @@ public class PhotoListUseCaseImpl implements PictureListUseCase {
     public Observable<PicturesList> getData(String queryKeyword) {
         return pictureRepository.loadData(queryKeyword);
     }
+
+    @Override
+    public Observable<PicturesList> getPage(String queryKeyword, int page) {
+        return pictureRepository.loadPage(queryKeyword, page);
+    }
 }

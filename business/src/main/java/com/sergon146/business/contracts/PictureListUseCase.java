@@ -12,4 +12,6 @@ import io.reactivex.Observable;
 
 public interface PictureListUseCase {
     Observable<PicturesList> getData(String queryKeyword);
+
+    Observable<PicturesList> getPage(String queryKeyword, int page);
 }
