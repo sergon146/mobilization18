@@ -1,10 +1,12 @@
 package com.sergon146.mobilization18.ui.fragments.picture.picturedetail;
 
 import android.os.Bundle;
+import android.support.constraint.Group;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
@@ -33,6 +35,8 @@ public class PictureDetailFragment extends BaseMvpFragment<PictureDetailPresente
         implements PictureDetailView {
     private static final String PICTURES_DTO_ARG = "PICTURES_DTO_ARG";
 
+    @BindView(R.id.pager)
+    ViewPager pager;
     @BindView(R.id.arrow_left)
     View arrowLeft;
     @BindView(R.id.arrow_right)
@@ -42,10 +46,8 @@ public class PictureDetailFragment extends BaseMvpFragment<PictureDetailPresente
     @InjectPresenter
     PictureDetailPresenter presenter;
 
-    @BindView(R.id.pager)
-    ViewPager pager;
-
     private int currentPosition;
+    private int hitCount;
     private List<Picture> pictures;
 
     public static PictureDetailFragment getInstance(PicturesList picturesDto) {
@@ -82,10 +84,53 @@ public class PictureDetailFragment extends BaseMvpFragment<PictureDetailPresente
         View view = inflater.inflate(R.layout.fragment_picture_detail, container, false);
         ButterKnife.bind(this, view);
 
+        setupPicturePager();
+        return view;
+    }
+
+    private void setupPicturePager() {
         PicturePageAdapter adapter = new PicturePageAdapter(pictures);
         pager.setAdapter(adapter);
         pager.setCurrentItem(currentPosition);
-        return view;
+
+        pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                pageChanged(position);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+            }
+        });
+    }
+
+    private void pageChanged(int position) {
+        currentPosition = position;
+        setupControls();
+    }
+
+    private void setupControls() {
+        if (currentPosition == 0) {
+            arrowLeft.setVisibility(View.GONE);
+        } else {
+            arrowLeft.setVisibility(View.VISIBLE);
+        }
+
+        if (currentPosition == pictures.size() - 1) {
+            arrowRight.setVisibility(View.GONE);
+        } else {
+            arrowRight.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @OnClick(R.id.arrow_back)
+    public void onBackClick() {
+        presenter.navigateBack();
     }
 
     @OnClick(R.id.arrow_left)

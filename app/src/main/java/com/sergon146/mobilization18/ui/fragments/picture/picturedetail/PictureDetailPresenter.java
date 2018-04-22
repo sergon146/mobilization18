@@ -24,4 +24,8 @@ public class PictureDetailPresenter extends BasePresenter<PictureDetailView> {
     protected String getScreenTag() {
         return "PhotoDetail";
     }
+
+    public void navigateBack() {
+        getRouter().back();
+    }
 }
