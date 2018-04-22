@@ -47,7 +47,6 @@ public class PictureDetailFragment extends BaseMvpFragment<PictureDetailPresente
     PictureDetailPresenter presenter;
 
     private int currentPosition;
-    private int hitCount;
     private List<Picture> pictures;
 
     public static PictureDetailFragment getInstance(PicturesList picturesDto) {
