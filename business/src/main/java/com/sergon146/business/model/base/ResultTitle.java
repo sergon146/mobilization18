@@ -7,10 +7,10 @@ package com.sergon146.business.model.base;
 
 public class ResultTitle {
     public String keyword;
-    public int count;
+    public int totalCount;
 
-    public ResultTitle(String keyword, int count) {
+    public ResultTitle(String keyword, int totalCount) {
         this.keyword = keyword;
-        this.count = count;
+        this.totalCount = totalCount;
     }
 }

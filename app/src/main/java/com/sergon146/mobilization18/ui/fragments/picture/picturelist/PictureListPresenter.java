@@ -49,18 +49,18 @@ public class PictureListPresenter extends BasePresenter<PictureListView>
             .doOnTerminate(() -> getViewState().hideMainThrobber())
             .subscribe(data -> {
                     getViewState().hideThrobber();
-                    this.totalHits = data.getTotalHits();
+                    this.totalHits = data.getTotalCounts();
                     this.pictures.clear();
                     this.pictures.addAll(data.getPictures());
                     getViewState().initShowPictures(data.getPictures(),
-                        new ResultTitle(keyword, data.getTotalHits()));
+                        new ResultTitle(keyword, data.getTotalCounts()));
 
                     if (totalHits != 0 && pictures.size() < totalHits) {
                         getViewState().prepareRecycler();
                     }
 
                     Logger.d(getScreenTag(),
-                        "Loaded first page, count: " + data.getPictures().size()
+                        "Loaded first page, totalCount: " + data.getPictures().size()
                             + " of " + totalHits);
                 }
             ), LifeLevel.PER_PRESENTER);

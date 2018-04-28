@@ -34,6 +34,8 @@ public class PictureListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     private List<Object> listElements = new ArrayList<>();
     private List<Picture> pictures = new ArrayList<>();
     private boolean isThrobberActive = false;
+    private int totalCount;
+    private String keyword;
 
     public PictureListAdapter(PictureClickListener listener) {
         this.listener = listener;
@@ -126,6 +128,9 @@ public class PictureListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         pictures.clear();
         pictures.addAll(items);
         notifyDataSetChanged();
+
+        totalCount = resultTitle.totalCount;
+        keyword = resultTitle.keyword;
     }
 
     public void addItems(List<Picture> items) {
@@ -154,7 +159,8 @@ public class PictureListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         }
 
         void bind(int pos, Picture picture) {
-            itemView.setOnClickListener(v -> listener.onClick(new PicturesList(pictures, pos - 1)));
+            itemView.setOnClickListener(v ->
+                listener.onClick(new PicturesList(pictures, pos - 1, totalCount, keyword)));
 
             String url = picture.getWebformatURL();
             if (url == null || url.isEmpty()) {
