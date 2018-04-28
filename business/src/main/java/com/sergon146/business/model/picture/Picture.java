@@ -1,4 +1,4 @@
-package com.sergon146.business.model;
+package com.sergon146.business.model.picture;
 
 import org.parceler.Parcel;
 

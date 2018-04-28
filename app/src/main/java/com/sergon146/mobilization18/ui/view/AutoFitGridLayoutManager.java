@@ -7,8 +7,8 @@ import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.ViewGroup;
 
-import com.sergon146.mobilization18.R;
 import com.sergon146.core.utils.Const;
+import com.sergon146.mobilization18.R;
 
 /**
  * @author Sergon146 (sergon146@gmail.com).
@@ -29,17 +29,15 @@ public class AutoFitGridLayoutManager extends GridLayoutManager {
                           int widthSpec,
                           int heightSpec) {
         super.onMeasure(recycler, state, widthSpec, heightSpec);
-        if (state.getItemCount() > 0
-                && state.isMeasuring()
-                && getSpanCount() != spanCount) {
+        if (state.getItemCount() > 0 && state.isMeasuring() && getSpanCount() != spanCount) {
             int spaceWidth = recyclerView
-                    .getResources()
-                    .getDimensionPixelOffset(R.dimen.list_space);
+                .getResources()
+                .getDimensionPixelOffset(R.dimen.list_space);
 
             setSpanCount(spanCount);
 
             recyclerView.addItemDecoration(
-                    new CatalogDecorations(spanCount, spaceWidth));
+                new CatalogDecorations(spanCount, spaceWidth));
         }
     }
 
@@ -61,7 +59,7 @@ public class AutoFitGridLayoutManager extends GridLayoutManager {
     private RecyclerView.LayoutParams generateLayoutParams() {
         if (spanCount == Const.NONE) {
             Resources resources = recyclerView.getResources();
-            int childWidth = resources.getDimensionPixelOffset(R.dimen.list_image_width);
+            int childWidth = resources.getDimensionPixelOffset(R.dimen.list_image_width) + 40;
             int availableSpace = getWidth();
             int spaceWidth = resources.getDimensionPixelOffset(R.dimen.list_space);
 
@@ -73,7 +71,7 @@ public class AutoFitGridLayoutManager extends GridLayoutManager {
         }
 
         return new GridLayoutManager.LayoutParams(
-                LayoutParams.MATCH_PARENT,
-                LayoutParams.WRAP_CONTENT);
+            LayoutParams.MATCH_PARENT,
+            LayoutParams.WRAP_CONTENT);
     }
 }

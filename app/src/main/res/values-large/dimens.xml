@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="list_space" >8dp</dimen>
+    <!--<dimen name="list_space">8dp</dimen>-->
+    <dimen name="list_image_width">164dp</dimen>
+
     <!--<dimen name="list_item_bottom_padding">16dp</dimen>-->
 </resources>

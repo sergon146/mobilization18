@@ -1,7 +1,7 @@
 package com.sergon146.business.repository;
 
 
-import com.sergon146.business.model.PicturesList;
+import com.sergon146.business.model.picture.PicturesList;
 
 import io.reactivex.Observable;
 

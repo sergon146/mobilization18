@@ -5,7 +5,7 @@ import android.support.v4.app.Fragment;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
-import com.sergon146.business.model.PicturesList;
+import com.sergon146.business.model.picture.PicturesList;
 import com.sergon146.mobilization18.R;
 import com.sergon146.mobilization18.navigation.MainRouter;
 import com.sergon146.mobilization18.navigation.Screens;

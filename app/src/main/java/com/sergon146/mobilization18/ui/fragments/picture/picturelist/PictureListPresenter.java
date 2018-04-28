@@ -4,8 +4,9 @@ import android.support.v7.widget.RecyclerView;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.sergon146.business.contracts.PictureListUseCase;
-import com.sergon146.business.model.Picture;
-import com.sergon146.business.model.PicturesList;
+import com.sergon146.business.model.base.ResultTitle;
+import com.sergon146.business.model.picture.Picture;
+import com.sergon146.business.model.picture.PicturesList;
 import com.sergon146.core.utils.Const;
 import com.sergon146.core.utils.Logger;
 import com.sergon146.mobilization18.navigation.MainRouter;
@@ -45,16 +46,21 @@ public class PictureListPresenter extends BasePresenter<PictureListView>
         this.keyword = keyword;
         bind(onUi(useCase.getData(keyword))
             .doOnSubscribe(d -> getViewState().showThrobber())
-            .doOnTerminate(() -> getViewState().hideThrobber())
             .subscribe(data -> {
+                    getViewState().hideThrobber();
                     this.totalHits = data.getTotalHits();
                     this.pictures.clear();
                     this.pictures.addAll(data.getPictures());
-                    getViewState().showPictures(this.pictures);
-                    getViewState().showSearchResultCount(totalHits);
-                    getViewState().prepareRecycler();
+                    getViewState().initShowPictures(data.getPictures(),
+                        new ResultTitle(keyword, data.getTotalHits()));
+
+                    if (totalHits != 0 && pictures.size() < totalHits) {
+                        getViewState().prepareRecycler();
+                    }
+
                     Logger.d(getScreenTag(),
-                        "Loaded first page, count: " + data.getPictures().size());
+                        "Loaded first page, count: " + data.getPictures().size()
+                            + " of " + totalHits);
                 }
             ), LifeLevel.PER_PRESENTER);
     }
@@ -74,17 +80,13 @@ public class PictureListPresenter extends BasePresenter<PictureListView>
 
     @Override
     public Observable<List> onNextPage(int offset) {
-        if (pictures.size() == totalHits) {
-            return Observable.just(new ArrayList());
-        }
-
         return onUi(useCase.getPage(keyword, offset / Const.PICTURE_PER_PAGE + 1))
             .doOnSubscribe(d -> getViewState().showThrobber())
             .doOnNext(data -> {
+                getViewState().hideThrobber();
                 pictures.addAll(data.getPictures());
                 getViewState().addPictures(data.getPictures());
             })
-            .doOnTerminate(() -> getViewState().hideThrobber())
             .map(PicturesList::getPictures);
     }
 

@@ -2,7 +2,7 @@ package com.sergon146.business.usecase;
 
 
 import com.sergon146.business.contracts.PictureListUseCase;
-import com.sergon146.business.model.PicturesList;
+import com.sergon146.business.model.picture.PicturesList;
 import com.sergon146.business.repository.PictureRepository;
 
 import io.reactivex.Observable;

@@ -1,7 +1,7 @@
 package com.sergon146.core.repository;
 
 
-import com.sergon146.business.model.PicturesList;
+import com.sergon146.business.model.picture.PicturesList;
 import com.sergon146.business.repository.PictureRepository;
 import com.sergon146.core.api.PictureApiService;
 import com.sergon146.core.mappers.PictureListMapper;
