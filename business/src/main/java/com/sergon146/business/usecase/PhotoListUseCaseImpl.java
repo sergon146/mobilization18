@@ -2,7 +2,7 @@ package com.sergon146.business.usecase;
 
 
 import com.sergon146.business.contracts.PictureListUseCase;
-import com.sergon146.business.model.PicturesList;
+import com.sergon146.business.model.picture.PicturesList;
 import com.sergon146.business.repository.PictureRepository;
 
 import io.reactivex.Observable;
@@ -23,5 +23,10 @@ public class PhotoListUseCaseImpl implements PictureListUseCase {
     @Override
     public Observable<PicturesList> getData(String queryKeyword) {
         return pictureRepository.loadData(queryKeyword);
+    }
+
+    @Override
+    public Observable<PicturesList> getPage(String queryKeyword, int page) {
+        return pictureRepository.loadPage(queryKeyword, page);
     }
 }

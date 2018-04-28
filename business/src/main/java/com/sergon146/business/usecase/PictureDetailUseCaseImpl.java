@@ -1,6 +1,6 @@
 package com.sergon146.business.usecase;
 
-import com.sergon146.business.model.PicturesList;
+import com.sergon146.business.model.picture.PicturesList;
 import com.sergon146.business.repository.PictureRepository;
 import com.sergon146.business.contracts.PictureDetailUseCase;
 
@@ -20,7 +20,7 @@ public class PictureDetailUseCaseImpl implements PictureDetailUseCase {
     }
 
     @Override
-    public Observable<PicturesList> getData(String queryKeyword) {
-        return pictureRepository.loadData(queryKeyword);
+    public Observable<PicturesList> getPage(String queryKeyword, int page) {
+        return pictureRepository.loadPage(queryKeyword, page);
     }
 }

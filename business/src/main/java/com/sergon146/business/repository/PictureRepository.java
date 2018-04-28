@@ -1,7 +1,7 @@
 package com.sergon146.business.repository;
 
 
-import com.sergon146.business.model.PicturesList;
+import com.sergon146.business.model.picture.PicturesList;
 
 import io.reactivex.Observable;
 
@@ -14,4 +14,6 @@ import io.reactivex.Observable;
 public interface PictureRepository {
 
     Observable<PicturesList> loadData(String keyword);
+
+    Observable<PicturesList> loadPage(String queryKeyword, int page);
 }

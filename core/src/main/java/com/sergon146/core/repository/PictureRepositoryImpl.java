@@ -1,7 +1,7 @@
 package com.sergon146.core.repository;
 
 
-import com.sergon146.business.model.PicturesList;
+import com.sergon146.business.model.picture.PicturesList;
 import com.sergon146.business.repository.PictureRepository;
 import com.sergon146.core.api.PictureApiService;
 import com.sergon146.core.mappers.PictureListMapper;
@@ -26,5 +26,10 @@ public class PictureRepositoryImpl implements PictureRepository {
     public Observable<PicturesList> loadData(String keyword) {
         return apiService.getData(keyword)
                 .map(t -> pictureListMapper.from(t));
+    }
+
+    @Override
+    public Observable<PicturesList> loadPage(String queryKeyword, int page) {
+        return apiService.getPage(queryKeyword, page).map(t -> pictureListMapper.from(t));
     }
 }

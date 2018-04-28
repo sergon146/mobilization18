@@ -2,6 +2,7 @@ package com.sergon146.mobilization18.ui.fragments.picture.picturedetail;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.sergon146.business.contracts.PictureDetailUseCase;
+import com.sergon146.business.model.picture.PicturesList;
 import com.sergon146.mobilization18.navigation.MainRouter;
 import com.sergon146.mobilization18.ui.base.BasePresenter;
 
@@ -14,6 +15,7 @@ import com.sergon146.mobilization18.ui.base.BasePresenter;
 public class PictureDetailPresenter extends BasePresenter<PictureDetailView> {
 
     private final PictureDetailUseCase useCase;
+    private PicturesList updData;
 
     public PictureDetailPresenter(MainRouter router, PictureDetailUseCase useCase) {
         super(router);

@@ -1,7 +1,7 @@
 package com.sergon146.core.mappers;
 
-import com.sergon146.business.model.Picture;
-import com.sergon146.business.model.PicturesList;
+import com.sergon146.business.model.picture.Picture;
+import com.sergon146.business.model.picture.PicturesList;
 import com.sergon146.core.api.entities.PictureDto;
 import com.sergon146.core.api.entities.PictureResponse;
 

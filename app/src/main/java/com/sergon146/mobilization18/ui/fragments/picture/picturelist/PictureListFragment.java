@@ -3,23 +3,22 @@ package com.sergon146.mobilization18.ui.fragments.picture.picturelist;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
-import com.sergon146.business.model.Picture;
-import com.sergon146.business.model.PicturesList;
+import com.sergon146.business.model.base.ResultTitle;
+import com.sergon146.business.model.picture.Picture;
+import com.sergon146.core.utils.ViewUitl;
 import com.sergon146.mobilization18.R;
 import com.sergon146.mobilization18.ui.base.BaseMvpFragment;
 import com.sergon146.mobilization18.ui.fragments.picture.picturelist.adapter.PictureListAdapter;
-import com.sergon146.mobilization18.ui.view.AutoFitGridLayoutManager;
-import com.sergon146.core.utils.ViewUitl;
 
 import java.util.List;
 
@@ -34,7 +33,7 @@ import butterknife.OnClick;
  * @since 15.04.2018
  */
 public class PictureListFragment extends BaseMvpFragment<PictureListPresenter>
-        implements PictureListView {
+    implements PictureListView {
 
     private static final String SEARCH_TEXT = "SEARCH_TEXT";
     private static final String RECYCLER_STATE = "RECYCLER_STATE";
@@ -43,12 +42,8 @@ public class PictureListFragment extends BaseMvpFragment<PictureListPresenter>
     RecyclerView recyclerView;
     @BindView(R.id.search_text)
     EditText searchText;
-    @BindView(R.id.search_result)
-    TextView searchResult;
     @BindView(R.id.throbber)
     ProgressBar throbber;
-    @BindView(R.id.pagination_throbber)
-    ProgressBar paginationThrobber;
 
     @Inject
     @InjectPresenter
@@ -88,10 +83,38 @@ public class PictureListFragment extends BaseMvpFragment<PictureListPresenter>
     }
 
     private void initRecycler() {
+//        AutoFitGridLayoutManager layoutManager =
+//            new AutoFitGridLayoutManager(getContext(), recyclerView);
+//        layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+//            @Override
+//            public int getSpanSize(int position) {
+//                int itemViewType = adapter.getItemViewType(position);
+//                if (itemViewType == PictureListAdapter.THROBBER_VIEW_TYPE
+//                    || itemViewType == PictureListAdapter.TITLE_VIEW_TYPE) {
+//                    return layoutManager.getSpanCount();
+//                }
+//                return 1;
+//            }
+//        });
+
+        int spanCount = getResources().getInteger(R.integer.list_column_count);
+        GridLayoutManager layoutManager = new GridLayoutManager(getContext(), spanCount);
+        layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int position) {
+                int itemViewType = adapter.getItemViewType(position);
+                if (itemViewType == PictureListAdapter.THROBBER_VIEW_TYPE
+                    || itemViewType == PictureListAdapter.TITLE_VIEW_TYPE) {
+                    return layoutManager.getSpanCount();
+                }
+                return 1;
+            }
+        });
+        recyclerView.setLayoutManager(layoutManager);
+
         adapter = new PictureListAdapter(pic -> getPresenter().openDetail(pic));
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new AutoFitGridLayoutManager(getContext(), recyclerView));
     }
 
     @OnClick(R.id.search)
@@ -103,11 +126,11 @@ public class PictureListFragment extends BaseMvpFragment<PictureListPresenter>
             keyword = newKeyword;
         }
 
-        ViewUitl.hideKeyboard(getContext(), getView());
-
         if (!keyword.isEmpty()) {
             presenter.loadFirstPage(keyword);
         }
+
+        ViewUitl.hideKeyboard(getContext(), getView());
     }
 
     @Override
@@ -135,29 +158,37 @@ public class PictureListFragment extends BaseMvpFragment<PictureListPresenter>
     }
 
     @Override
-    public void showPictures(List<Picture> pictures) {
-        adapter.setItems(pictures);
+    public void initShowPictures(List<Picture> pictures, ResultTitle resultTitle) {
+        adapter.setItems(pictures, resultTitle);
     }
 
     @Override
-    public void showSearchResultCount(int count) {
-        searchResult.setVisibility(View.VISIBLE);
-        searchResult.setText(getResources().getString(R.string.search_result, keyword,
-                getResources().getQuantityString(R.plurals.hours_count_to_watch, count, count)));
-    }
-
-    @Override
-    public void hideSearchResultCount() {
-        searchResult.setVisibility(View.GONE);
+    public void prepareRecycler() {
+        getPresenter().preparePagination(recyclerView);
     }
 
     @Override
     public void showThrobber() {
-        throbber.setVisibility(View.VISIBLE);
+        adapter.showThrobber();
     }
 
     @Override
     public void hideThrobber() {
+        adapter.hideThrobber();
+    }
+
+    @Override
+    public void addPictures(List<Picture> pictures) {
+        adapter.addItems(pictures);
+    }
+
+    @Override
+    public void showMainThrobber() {
+        throbber.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideMainThrobber() {
         throbber.setVisibility(View.GONE);
     }
 }

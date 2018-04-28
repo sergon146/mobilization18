@@ -6,7 +6,7 @@ import android.view.ViewGroup;
 
 import com.facebook.drawee.drawable.ProgressBarDrawable;
 import com.facebook.drawee.view.SimpleDraweeView;
-import com.sergon146.business.model.Picture;
+import com.sergon146.business.model.picture.Picture;
 import com.sergon146.mobilization18.R;
 import com.sergon146.mobilization18.ui.view.components.RecycledPageAdapter;
 

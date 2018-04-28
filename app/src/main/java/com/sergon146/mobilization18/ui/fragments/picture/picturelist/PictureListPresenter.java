@@ -1,15 +1,23 @@
 package com.sergon146.mobilization18.ui.fragments.picture.picturelist;
 
+import android.support.v7.widget.RecyclerView;
+
 import com.arellomobile.mvp.InjectViewState;
-import com.sergon146.business.model.Picture;
-import com.sergon146.business.model.PicturesList;
 import com.sergon146.business.contracts.PictureListUseCase;
+import com.sergon146.business.model.base.ResultTitle;
+import com.sergon146.business.model.picture.Picture;
+import com.sergon146.business.model.picture.PicturesList;
+import com.sergon146.core.utils.Const;
+import com.sergon146.core.utils.Logger;
 import com.sergon146.mobilization18.navigation.MainRouter;
 import com.sergon146.mobilization18.ui.base.BasePresenter;
-import com.sergon146.core.utils.Logger;
+import com.sergon146.mobilization18.util.pagination.PaginationTool;
+import com.sergon146.mobilization18.util.pagination.PagingListener;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import io.reactivex.Observable;
 
 /**
  * @author Sergon146 (sergon146@gmail.com).
@@ -17,9 +25,12 @@ import java.util.List;
  */
 
 @InjectViewState
-public class PictureListPresenter extends BasePresenter<PictureListView> {
+public class PictureListPresenter extends BasePresenter<PictureListView>
+    implements PagingListener<List>, PaginationTool.LoadedItemsCounter {
     private final PictureListUseCase useCase;
     public List<Picture> pictures = new ArrayList<>();
+    private String keyword = "";
+    private int totalHits;
 
     public PictureListPresenter(MainRouter router, PictureListUseCase useCase) {
         super(router);
@@ -32,26 +43,75 @@ public class PictureListPresenter extends BasePresenter<PictureListView> {
     }
 
     public void loadFirstPage(String keyword) {
+        this.keyword = keyword;
         bind(onUi(useCase.getData(keyword))
-                .doOnSubscribe(d -> getViewState().showThrobber())
-                .doOnTerminate(() -> getViewState().hideThrobber())
+            .doOnSubscribe(d -> getViewState().showMainThrobber())
+            .doOnTerminate(() -> getViewState().hideMainThrobber())
+            .subscribe(data -> {
+                    getViewState().hideThrobber();
+                    this.totalHits = data.getTotalHits();
+                    this.pictures.clear();
+                    this.pictures.addAll(data.getPictures());
+                    getViewState().initShowPictures(data.getPictures(),
+                        new ResultTitle(keyword, data.getTotalHits()));
+
+                    if (totalHits != 0 && pictures.size() < totalHits) {
+                        getViewState().prepareRecycler();
+                    }
+
+                    Logger.d(getScreenTag(),
+                        "Loaded first page, count: " + data.getPictures().size()
+                            + " of " + totalHits);
+                }
+            ), LifeLevel.PER_PRESENTER);
+    }
+
+    public void preparePagination(RecyclerView recyclerView) {
+        PaginationTool<List> paginationTool =
+            PaginationTool.buildPagingObservable(recyclerView, this, this)
+                .setTotal(totalHits)
+                .build();
+
+        bind(onUi(paginationTool.getPagingObservable())
                 .subscribe(data -> {
-                            this.pictures.clear();
-                            this.pictures.addAll(data.getPictures());
-                            getViewState().showPictures(this.pictures);
-                            getViewState().showSearchResultCount(data.getTotalHits());
-                            Logger.d(getScreenTag(),
-                                    "Loaded first page, count: " + data.getPictures().size());
-                        }
-                ), LifeLevel.PER_PRESENTER);
+                    },
+                    throwable -> getViewState().showToast("An error has occurred")),
+            LifeLevel.PER_UI);
+    }
+
+    @Override
+    public Observable<List> onNextPage(int offset) {
+        return onUi(useCase.getPage(keyword, offset / Const.PICTURE_PER_PAGE + 1))
+            .doOnSubscribe(d -> getViewState().showThrobber())
+            .doOnNext(data -> {
+                getViewState().hideThrobber();
+                pictures.addAll(data.getPictures());
+                getViewState().addPictures(data.getPictures());
+            })
+            .map(PicturesList::getPictures);
+    }
+
+    @Override
+    public void showTrobber() {
+        getViewState().showThrobber();
+    }
+
+    @Override
+    public void hideTrobber() {
+        getViewState().hideThrobber();
+    }
+
+    @Override
+    public int getItems() {
+        return pictures.size();
+    }
+
+    public void openDetail(PicturesList picturesDto) {
+        getRouter().showDetailScreen(picturesDto);
     }
 
     @Override
     protected String getScreenTag() {
         return "PhotoList";
-    }
-
-    public void openDetail(PicturesList picturesDto) {
-        getRouter().showDetailScreen(picturesDto);
     }
 }

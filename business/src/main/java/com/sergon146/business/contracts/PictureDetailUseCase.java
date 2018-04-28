@@ -1,7 +1,7 @@
 package com.sergon146.business.contracts;
 
 
-import com.sergon146.business.model.PicturesList;
+import com.sergon146.business.model.picture.PicturesList;
 
 import io.reactivex.Observable;
 
@@ -11,5 +11,5 @@ import io.reactivex.Observable;
  */
 
 public interface PictureDetailUseCase {
-    Observable<PicturesList> getData(String queryKeyword);
+    Observable<PicturesList> getPage(String queryKeyword, int page);
 }

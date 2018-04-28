@@ -1,17 +1,15 @@
 package com.sergon146.mobilization18.ui.fragments.picture.picturedetail;
 
 import android.os.Bundle;
-import android.support.constraint.Group;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
-import com.sergon146.business.model.Picture;
-import com.sergon146.business.model.PicturesList;
+import com.sergon146.business.model.picture.Picture;
+import com.sergon146.business.model.picture.PicturesList;
 import com.sergon146.mobilization18.R;
 import com.sergon146.mobilization18.ui.base.BaseMvpFragment;
 import com.sergon146.mobilization18.ui.fragments.picture.picturedetail.adapter.PicturePageAdapter;
@@ -47,7 +45,6 @@ public class PictureDetailFragment extends BaseMvpFragment<PictureDetailPresente
     PictureDetailPresenter presenter;
 
     private int currentPosition;
-    private int hitCount;
     private List<Picture> pictures;
 
     public static PictureDetailFragment getInstance(PicturesList picturesDto) {
@@ -85,6 +82,7 @@ public class PictureDetailFragment extends BaseMvpFragment<PictureDetailPresente
         ButterKnife.bind(this, view);
 
         setupPicturePager();
+        pageChanged(currentPosition);
         return view;
     }
 
