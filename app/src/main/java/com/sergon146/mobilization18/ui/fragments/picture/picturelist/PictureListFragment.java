@@ -181,4 +181,14 @@ public class PictureListFragment extends BaseMvpFragment<PictureListPresenter>
     public void addPictures(List<Picture> pictures) {
         adapter.addItems(pictures);
     }
+
+    @Override
+    public void showMainThrobber() {
+        throbber.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideMainThrobber() {
+        throbber.setVisibility(View.GONE);
+    }
 }

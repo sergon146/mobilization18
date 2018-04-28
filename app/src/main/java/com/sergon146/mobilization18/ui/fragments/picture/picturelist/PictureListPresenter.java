@@ -45,7 +45,8 @@ public class PictureListPresenter extends BasePresenter<PictureListView>
     public void loadFirstPage(String keyword) {
         this.keyword = keyword;
         bind(onUi(useCase.getData(keyword))
-            .doOnSubscribe(d -> getViewState().showThrobber())
+            .doOnSubscribe(d -> getViewState().showMainThrobber())
+            .doOnTerminate(() -> getViewState().hideMainThrobber())
             .subscribe(data -> {
                     getViewState().hideThrobber();
                     this.totalHits = data.getTotalHits();
