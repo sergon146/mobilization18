@@ -19,7 +19,6 @@ import com.sergon146.core.utils.ViewUitl;
 import com.sergon146.mobilization18.R;
 import com.sergon146.mobilization18.ui.base.BaseMvpFragment;
 import com.sergon146.mobilization18.ui.fragments.picture.picturelist.adapter.PictureListAdapter;
-import com.sergon146.mobilization18.ui.view.AutoFitGridLayoutManager;
 
 import java.util.List;
 
@@ -84,8 +83,22 @@ public class PictureListFragment extends BaseMvpFragment<PictureListPresenter>
     }
 
     private void initRecycler() {
-        AutoFitGridLayoutManager layoutManager =
-            new AutoFitGridLayoutManager(getContext(), recyclerView);
+//        AutoFitGridLayoutManager layoutManager =
+//            new AutoFitGridLayoutManager(getContext(), recyclerView);
+//        layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+//            @Override
+//            public int getSpanSize(int position) {
+//                int itemViewType = adapter.getItemViewType(position);
+//                if (itemViewType == PictureListAdapter.THROBBER_VIEW_TYPE
+//                    || itemViewType == PictureListAdapter.TITLE_VIEW_TYPE) {
+//                    return layoutManager.getSpanCount();
+//                }
+//                return 1;
+//            }
+//        });
+
+        int spanCount = getResources().getInteger(R.integer.list_column_count);
+        GridLayoutManager layoutManager = new GridLayoutManager(getContext(), spanCount);
         layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
             public int getSpanSize(int position) {
