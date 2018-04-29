@@ -22,7 +22,7 @@ public class PhotoListUseCaseImpl implements PictureListUseCase {
 
     @Override
     public Observable<PicturesList> getData(String queryKeyword) {
-        return pictureRepository.loadData(queryKeyword);
+        return pictureRepository.loadPage(queryKeyword);
     }
 
     @Override

@@ -16,5 +16,9 @@ public interface BaseMvpView extends MvpView {
 
     void showConnectionError();
 
-    void restartFragment();
+    void showLoadingError();
+
+    void connectionLost();
+
+    void connectionRestore();
 }

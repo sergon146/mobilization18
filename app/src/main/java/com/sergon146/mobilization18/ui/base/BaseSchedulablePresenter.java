@@ -2,7 +2,6 @@ package com.sergon146.mobilization18.ui.base;
 
 import com.arellomobile.mvp.MvpPresenter;
 import com.arellomobile.mvp.MvpView;
-import com.sergon146.core.utils.NetworkUtil;
 
 import io.reactivex.Completable;
 import io.reactivex.Flowable;

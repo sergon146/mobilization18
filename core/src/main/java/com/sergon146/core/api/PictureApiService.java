@@ -14,9 +14,6 @@ import retrofit2.http.Query;
 public interface PictureApiService {
 
     @GET("api/")
-    Observable<PictureResponse> getData(@Query("q") String query);
-
-    @GET("api/")
     Observable<PictureResponse> getPage(@Query("q") String queryKeyword,
                                         @Query("page") int page);
 }

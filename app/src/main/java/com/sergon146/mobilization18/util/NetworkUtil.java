@@ -1,4 +1,4 @@
-package com.sergon146.core.utils;
+package com.sergon146.mobilization18.util;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
@@ -6,12 +6,13 @@ import android.net.NetworkInfo;
 
 /**
  * @author Sergon146 (sergon146@gmail.com).
- * @since 15.04.2018
+ * @since 29.04.2018
  */
+
 public class NetworkUtil {
 
     /**
-     * Check is there are network connection
+     * Checking is there are network connection
      *
      * @param context Context
      * @return is there a connection
@@ -19,11 +20,16 @@ public class NetworkUtil {
     public static boolean isLostConnection(Context context) {
         try {
             ConnectivityManager cm = (ConnectivityManager) context
-                    .getSystemService(Context.CONNECTIVITY_SERVICE);
+                .getSystemService(Context.CONNECTIVITY_SERVICE);
+
+            if (cm == null) {
+                return true;
+            }
 
             NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-            if (null != activeNetwork) {
-                if (activeNetwork.getType() == ConnectivityManager.TYPE_WIFI || activeNetwork.getType() == ConnectivityManager.TYPE_MOBILE)
+            if (activeNetwork != null) {
+                if (activeNetwork.getType() == ConnectivityManager.TYPE_WIFI
+                    || activeNetwork.getType() == ConnectivityManager.TYPE_MOBILE)
                     return false;
             }
             return true;

@@ -5,6 +5,7 @@ import com.sergon146.business.contracts.PictureDetailUseCase;
 import com.sergon146.business.model.picture.Picture;
 import com.sergon146.business.model.picture.PicturesList;
 import com.sergon146.core.utils.Const;
+import com.sergon146.core.utils.Logger;
 import com.sergon146.mobilization18.App;
 import com.sergon146.mobilization18.R;
 import com.sergon146.mobilization18.navigation.MainRouter;
@@ -47,10 +48,8 @@ public class PictureDetailPresenter extends BasePresenter<PictureDetailView> {
 
     public void pageChanged(int newPosition) {
         currentPosition = newPosition;
-        if (currentPosition >= pictures.size() - UPDATE_LIMIT - 1 && pictures.size() < totalCount
-            && !isNextPageLoading) {
-            loadNextPage();
-        }
+        loadNextIfAvailable();
+
         getViewState().setTitleText(App.getAppResources()
             .getString(R.string.picture_state, newPosition + 1, totalCount));
 
@@ -58,17 +57,24 @@ public class PictureDetailPresenter extends BasePresenter<PictureDetailView> {
         getViewState().showPicture(currentPosition);
     }
 
+    public void loadNextIfAvailable() {
+        if (currentPosition >= pictures.size() - UPDATE_LIMIT - 1 && pictures.size() < totalCount
+            && !isNextPageLoading) {
+            loadNextPage();
+        }
+    }
+
     private void loadNextPage() {
         bind(onUi(useCase.getPage(keyword, pictures.size() / 20 + 1))
-                .doOnSubscribe(d -> isNextPageLoading = true)
-                .doOnTerminate(() -> isNextPageLoading = false)
-                .subscribe(data -> {
+            .doOnSubscribe(d -> isNextPageLoading = true)
+            .doOnTerminate(() -> isNextPageLoading = false)
+            .subscribe(data -> {
                     List<Picture> pictures = data.getPictures();
                     this.pictures.addAll(pictures);
                     getViewState().addPictures(pictures);
                     checkArrow(currentPosition);
-                })
-            , LifeLevel.PER_PRESENTER);
+                },
+                th -> Logger.v(getScreenTag(), th.getMessage())), LifeLevel.PER_PRESENTER);
     }
 
     private void checkArrow(int currentPosition) {
@@ -85,8 +91,9 @@ public class PictureDetailPresenter extends BasePresenter<PictureDetailView> {
         }
     }
 
+
     public void navigateBack() {
-        getRouter().back();
+        goBack();
     }
 
     @Override

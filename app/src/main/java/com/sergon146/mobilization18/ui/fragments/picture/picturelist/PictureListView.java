@@ -18,7 +18,7 @@ import java.util.List;
 public interface PictureListView extends BaseMvpView {
     void initShowPictures(List<Picture> pictures, ResultTitle resultTitle);
 
-    void prepareRecycler();
+    void preparePagination();
 
     void showThrobber();
 

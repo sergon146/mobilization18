@@ -9,6 +9,7 @@ import com.sergon146.business.model.picture.Picture;
 import com.sergon146.business.model.picture.PicturesList;
 import com.sergon146.core.utils.Const;
 import com.sergon146.core.utils.Logger;
+import com.sergon146.mobilization18.R;
 import com.sergon146.mobilization18.navigation.MainRouter;
 import com.sergon146.mobilization18.ui.base.BasePresenter;
 import com.sergon146.mobilization18.util.pagination.PaginationTool;
@@ -56,17 +57,22 @@ public class PictureListPresenter extends BasePresenter<PictureListView>
                         new ResultTitle(keyword, data.getTotalCounts()));
 
                     if (totalHits != 0 && pictures.size() < totalHits) {
-                        getViewState().prepareRecycler();
+                        getViewState().preparePagination();
                     }
 
                     Logger.d(getScreenTag(),
-                        "Loaded first page, totalCount: " + data.getPictures().size()
+                        "Loaded first page, loaded: " + data.getPictures().size()
                             + " of " + totalHits);
-                }
+                },
+                th -> getViewState().showLoadingError()
             ), LifeLevel.PER_PRESENTER);
     }
 
     public void preparePagination(RecyclerView recyclerView) {
+        if (totalHits == 0 || pictures.size() >= totalHits) {
+            return;
+        }
+
         PaginationTool<List> paginationTool =
             PaginationTool.buildPagingObservable(recyclerView, this, this)
                 .setTotal(totalHits)
@@ -75,7 +81,7 @@ public class PictureListPresenter extends BasePresenter<PictureListView>
         bind(onUi(paginationTool.getPagingObservable())
                 .subscribe(data -> {
                     },
-                    throwable -> getViewState().showToast("An error has occurred")),
+                    throwable -> getViewState().showToast(R.string.loading_error)),
             LifeLevel.PER_UI);
     }
 
