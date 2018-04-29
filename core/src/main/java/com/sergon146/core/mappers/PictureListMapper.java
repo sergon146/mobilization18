@@ -19,7 +19,7 @@ public class PictureListMapper implements PairMapper<PictureResponse, PicturesLi
     @Override
     public PictureResponse to(PicturesList destination) {
         PictureResponse response = new PictureResponse();
-        response.setTotalHits(destination.getTotalHits());
+        response.setTotalHits(destination.getTotalCounts());
         List<PictureDto> pictures = new ArrayList<>();
         for (Picture picture : destination.getPictures()) {
             pictures.add(pictureMapper.to(picture));
@@ -31,7 +31,7 @@ public class PictureListMapper implements PairMapper<PictureResponse, PicturesLi
     @Override
     public PicturesList from(PictureResponse source) {
         PicturesList list = new PicturesList();
-        list.setTotalHits(source.getTotalHits());
+        list.setTotalCounts(source.getTotalHits());
         List<Picture> pictures = new ArrayList<>();
         for (PictureDto pictureDto : source.getPictures()) {
             pictures.add(pictureMapper.from(pictureDto));

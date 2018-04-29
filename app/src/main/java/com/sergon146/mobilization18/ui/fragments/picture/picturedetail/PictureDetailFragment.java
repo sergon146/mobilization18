@@ -5,6 +5,7 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
@@ -30,7 +31,7 @@ import butterknife.OnClick;
  */
 
 public class PictureDetailFragment extends BaseMvpFragment<PictureDetailPresenter>
-        implements PictureDetailView {
+    implements PictureDetailView {
     private static final String PICTURES_DTO_ARG = "PICTURES_DTO_ARG";
 
     @BindView(R.id.pager)
@@ -39,13 +40,12 @@ public class PictureDetailFragment extends BaseMvpFragment<PictureDetailPresente
     View arrowLeft;
     @BindView(R.id.arrow_right)
     View arrowRight;
-
+    @BindView(R.id.title)
+    TextView title;
     @Inject
     @InjectPresenter
     PictureDetailPresenter presenter;
-
-    private int currentPosition;
-    private List<Picture> pictures;
+    private PicturePageAdapter adapter;
 
     public static PictureDetailFragment getInstance(PicturesList picturesDto) {
         PictureDetailFragment fragment = new PictureDetailFragment();
@@ -64,14 +64,12 @@ public class PictureDetailFragment extends BaseMvpFragment<PictureDetailPresente
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            PicturesList dto = Parcels.unwrap(getArguments().getParcelable(PICTURES_DTO_ARG));
-            if (dto == null) {
-                return;
-            }
 
-            currentPosition = dto.getPosition();
-            pictures = dto.getPictures();
+        if (savedInstanceState == null && getArguments() != null) {
+            PicturesList data = Parcels.unwrap(getArguments().getParcelable(PICTURES_DTO_ARG));
+            if (data != null) {
+                getPresenter().setupData(data);
+            }
         }
     }
 
@@ -81,15 +79,14 @@ public class PictureDetailFragment extends BaseMvpFragment<PictureDetailPresente
         View view = inflater.inflate(R.layout.fragment_picture_detail, container, false);
         ButterKnife.bind(this, view);
 
+
         setupPicturePager();
-        pageChanged(currentPosition);
         return view;
     }
 
     private void setupPicturePager() {
-        PicturePageAdapter adapter = new PicturePageAdapter(pictures);
+        adapter = new PicturePageAdapter();
         pager.setAdapter(adapter);
-        pager.setCurrentItem(currentPosition);
 
         pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -98,7 +95,7 @@ public class PictureDetailFragment extends BaseMvpFragment<PictureDetailPresente
 
             @Override
             public void onPageSelected(int position) {
-                pageChanged(position);
+                getPresenter().pageChanged(position);
             }
 
             @Override
@@ -107,23 +104,44 @@ public class PictureDetailFragment extends BaseMvpFragment<PictureDetailPresente
         });
     }
 
-    private void pageChanged(int position) {
-        currentPosition = position;
-        setupControls();
+    @Override
+    public void initShowPictures(List<Picture> pictures) {
+        adapter.setPictures(pictures);
     }
 
-    private void setupControls() {
-        if (currentPosition == 0) {
-            arrowLeft.setVisibility(View.GONE);
-        } else {
-            arrowLeft.setVisibility(View.VISIBLE);
-        }
+    @Override
+    public void showPicture(int currentPosition) {
+        pager.setCurrentItem(currentPosition);
+    }
 
-        if (currentPosition == pictures.size() - 1) {
-            arrowRight.setVisibility(View.GONE);
-        } else {
-            arrowRight.setVisibility(View.VISIBLE);
-        }
+    @Override
+    public void showLeftArrow() {
+        arrowLeft.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideLeftArrow() {
+        arrowLeft.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showRightArrow() {
+        arrowRight.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideRightArrow() {
+        arrowRight.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void addPictures(List<Picture> pictures) {
+        adapter.addPictures(pictures);
+    }
+
+    @Override
+    public void setTitleText(String titleText) {
+        title.setText(titleText);
     }
 
     @OnClick(R.id.arrow_back)

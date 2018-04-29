@@ -16,19 +16,14 @@ import java.util.List;
 
 @StateStrategyType(AddToEndSingleStrategy.class)
 public interface PictureListView extends BaseMvpView {
-    @StateStrategyType(AddToEndSingleStrategy.class)
     void initShowPictures(List<Picture> pictures, ResultTitle resultTitle);
 
-    @StateStrategyType(AddToEndSingleStrategy.class)
     void prepareRecycler();
 
-    @StateStrategyType(AddToEndSingleStrategy.class)
     void showThrobber();
 
-    @StateStrategyType(AddToEndSingleStrategy.class)
     void hideThrobber();
 
-    @StateStrategyType(AddToEndSingleStrategy.class)
     void addPictures(List<Picture> pictures);
 
     @StateStrategyType(SkipStrategy.class)

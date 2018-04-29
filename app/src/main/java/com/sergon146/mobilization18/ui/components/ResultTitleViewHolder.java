@@ -26,7 +26,7 @@ public class ResultTitleViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void bind(ResultTitle resultTitle) {
-        int resultCount = resultTitle.count;
+        int resultCount = resultTitle.totalCount;
         Resources res = itemView.getResources();
         title.setText(res.getString(R.string.search_result, resultTitle.keyword,
             res.getQuantityString(R.plurals.hours_count_to_watch, resultCount, resultCount)));
