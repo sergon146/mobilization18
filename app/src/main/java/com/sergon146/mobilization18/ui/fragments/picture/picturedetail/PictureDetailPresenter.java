@@ -27,6 +27,7 @@ public class PictureDetailPresenter extends BasePresenter<PictureDetailView> {
     private int currentPosition = Const.NONE;
     private int totalCount = 0;
     private String keyword;
+    private boolean isNextPageLoading = false;
 
     public PictureDetailPresenter(MainRouter router, PictureDetailUseCase useCase) {
         super(router);
@@ -45,36 +46,43 @@ public class PictureDetailPresenter extends BasePresenter<PictureDetailView> {
     }
 
     public void pageChanged(int newPosition) {
-        if (newPosition >= pictures.size() - UPDATE_LIMIT - 1 && pictures.size() < totalCount) {
+        currentPosition = newPosition;
+        if (currentPosition >= pictures.size() - UPDATE_LIMIT - 1 && pictures.size() < totalCount
+            && !isNextPageLoading) {
             loadNextPage();
         }
         getViewState().setTitleText(App.getAppResources()
             .getString(R.string.picture_state, newPosition + 1, totalCount));
 
-        currentPosition = newPosition;
-        if (newPosition == 0) {
-            getViewState().hideLeftArrow();
-        } else {
-            getViewState().showLeftArrow();
-        }
-
-        if (newPosition == pictures.size() - 1) {
-            getViewState().hideRightArrow();
-        } else {
-            getViewState().showRightArrow();
-        }
-
+        checkArrow(currentPosition);
         getViewState().showPicture(currentPosition);
     }
 
     private void loadNextPage() {
         bind(onUi(useCase.getPage(keyword, pictures.size() / 20 + 1))
+                .doOnSubscribe(d -> isNextPageLoading = true)
+                .doOnTerminate(() -> isNextPageLoading = false)
                 .subscribe(data -> {
                     List<Picture> pictures = data.getPictures();
                     this.pictures.addAll(pictures);
                     getViewState().addPictures(pictures);
+                    checkArrow(currentPosition);
                 })
             , LifeLevel.PER_PRESENTER);
+    }
+
+    private void checkArrow(int currentPosition) {
+        if (currentPosition == 0) {
+            getViewState().hideLeftArrow();
+        } else {
+            getViewState().showLeftArrow();
+        }
+
+        if (currentPosition == pictures.size() - 1) {
+            getViewState().hideRightArrow();
+        } else {
+            getViewState().showRightArrow();
+        }
     }
 
     public void navigateBack() {
