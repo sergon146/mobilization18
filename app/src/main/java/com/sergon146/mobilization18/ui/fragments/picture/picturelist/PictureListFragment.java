@@ -20,6 +20,7 @@ import com.sergon146.mobilization18.R;
 import com.sergon146.mobilization18.ui.base.BaseMvpFragment;
 import com.sergon146.mobilization18.ui.fragments.picture.picturelist.adapter.PictureListAdapter;
 import com.sergon146.mobilization18.util.NetworkUtil;
+import com.wang.avi.AVLoadingIndicatorView;
 
 import java.util.List;
 
@@ -44,7 +45,7 @@ public class PictureListFragment extends BaseMvpFragment<PictureListPresenter>
     @BindView(R.id.search_text)
     EditText searchText;
     @BindView(R.id.throbber)
-    ProgressBar throbber;
+    AVLoadingIndicatorView throbber;
     @BindView(R.id.connection_lost)
     View connectionLost;
 
@@ -96,7 +97,6 @@ public class PictureListFragment extends BaseMvpFragment<PictureListPresenter>
             connectionRestore();
         }
     }
-
 
     @Override
     public void onResume() {
