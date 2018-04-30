@@ -11,7 +11,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:padding="12dp"
+        android:background="@drawable/bordered_circle"
+        android:padding="8dp"
+        android:layout_margin="12dp"
         app:indicatorColor="@color/colorPrimary"
         app:indicatorName="BallClipRotateMultipleIndicator"
         />
