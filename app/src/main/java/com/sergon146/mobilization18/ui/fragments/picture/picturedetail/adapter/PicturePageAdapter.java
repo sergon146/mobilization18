@@ -1,11 +1,14 @@
 package com.sergon146.mobilization18.ui.fragments.picture.picturedetail.adapter;
 
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.drawable.ProgressBarDrawable;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.facebook.imagepipeline.core.ImagePipeline;
 import com.sergon146.business.model.picture.Picture;
 import com.sergon146.mobilization18.R;
 import com.sergon146.mobilization18.ui.view.components.RecycledPageAdapter;
@@ -62,10 +65,15 @@ public class PicturePageAdapter extends RecycledPageAdapter<PicturePageAdapter.V
         }
 
         public void bind(Picture picture) {
-
-            if (picture.getLargeImageURL() != null || !picture.getLargeImageURL().isEmpty()) {
-                image.setImageURI(picture.getLargeImageURL());
+            String uri = picture.getLargeImageURL();
+            if (uri != null && !uri.isEmpty()) {
+                image.setImageURI(uri);
                 image.getHierarchy().setProgressBarImage(new ProgressBarDrawable());
+                image.setController(
+                    Fresco.newDraweeControllerBuilder()
+                        .setTapToRetryEnabled(true)
+                        .setUri(uri)
+                        .build());
             }
         }
     }
