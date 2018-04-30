@@ -1,7 +1,9 @@
 <resources>
-    <string name="app_name">Picture Feed</string>
+    <string name="app_name">Picture Finder</string>
 
-    <string name="connection_error">Ошибка подключения!</string>
+    <string name="connection_error">Подключение к интернету отсутствует!</string>
+
+    <string name="loading_error">При загрузке произошла ошибка!</string>
 
     <string name="search_title">Найти изображения:</string>
     <string name="search">Поиск</string>

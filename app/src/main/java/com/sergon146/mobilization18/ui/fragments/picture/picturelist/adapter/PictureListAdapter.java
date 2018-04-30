@@ -93,6 +93,10 @@ public class PictureListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         }
     }
 
+    public boolean isEmpty() {
+        return pictures.isEmpty();
+    }
+
     public void showThrobber() {
         if (isThrobberActive) {
             return;

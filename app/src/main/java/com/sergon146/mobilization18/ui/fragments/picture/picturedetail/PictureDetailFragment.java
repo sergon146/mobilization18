@@ -160,6 +160,11 @@ public class PictureDetailFragment extends BaseMvpFragment<PictureDetailPresente
     }
 
     @Override
+    public void connectionRestore() {
+        getPresenter().loadNextIfAvailable();
+    }
+
+    @Override
     public String getLogName() {
         return "PhotoDetailFragment";
     }

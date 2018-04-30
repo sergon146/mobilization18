@@ -9,6 +9,7 @@ import com.sergon146.business.model.picture.Picture;
 import com.sergon146.business.model.picture.PicturesList;
 import com.sergon146.core.utils.Const;
 import com.sergon146.core.utils.Logger;
+import com.sergon146.mobilization18.R;
 import com.sergon146.mobilization18.navigation.MainRouter;
 import com.sergon146.mobilization18.ui.base.BasePresenter;
 import com.sergon146.mobilization18.util.pagination.PaginationTool;
@@ -29,8 +30,10 @@ public class PictureListPresenter extends BasePresenter<PictureListView>
     implements PagingListener<List>, PaginationTool.LoadedItemsCounter {
     private final PictureListUseCase useCase;
     public List<Picture> pictures = new ArrayList<>();
+    PaginationTool<List> paginationTool;
     private String keyword = "";
     private int totalHits;
+    private int currentPage = 1;
 
     public PictureListPresenter(MainRouter router, PictureListUseCase useCase) {
         super(router);
@@ -44,6 +47,7 @@ public class PictureListPresenter extends BasePresenter<PictureListView>
 
     public void loadFirstPage(String keyword) {
         this.keyword = keyword;
+        this.currentPage = 1;
         bind(onUi(useCase.getData(keyword))
             .doOnSubscribe(d -> getViewState().showMainThrobber())
             .doOnTerminate(() -> getViewState().hideMainThrobber())
@@ -56,32 +60,50 @@ public class PictureListPresenter extends BasePresenter<PictureListView>
                         new ResultTitle(keyword, data.getTotalCounts()));
 
                     if (totalHits != 0 && pictures.size() < totalHits) {
-                        getViewState().prepareRecycler();
+                        getViewState().preparePagination();
                     }
 
                     Logger.d(getScreenTag(),
-                        "Loaded first page, totalCount: " + data.getPictures().size()
+                        "Loaded first page, loaded: " + data.getPictures().size()
                             + " of " + totalHits);
-                }
+                },
+                th -> getViewState().showLoadingError()
             ), LifeLevel.PER_PRESENTER);
     }
 
     public void preparePagination(RecyclerView recyclerView) {
-        PaginationTool<List> paginationTool =
-            PaginationTool.buildPagingObservable(recyclerView, this, this)
-                .setTotal(totalHits)
-                .build();
+        if (totalHits == 0 || pictures.size() >= totalHits) {
+            return;
+        }
+
+        paginationTool = PaginationTool.buildPagingObservable(recyclerView, this, this)
+            .setTotal(totalHits)
+            .build();
+
+        startPagination();
+    }
+
+    public void startPagination() {
+        if (paginationTool == null) {
+            return;
+        }
 
         bind(onUi(paginationTool.getPagingObservable())
                 .subscribe(data -> {
                     },
-                    throwable -> getViewState().showToast("An error has occurred")),
+                    throwable -> getViewState().showToast(R.string.loading_error)),
             LifeLevel.PER_UI);
     }
 
     @Override
     public Observable<List> onNextPage(int offset) {
-        return onUi(useCase.getPage(keyword, offset / Const.PICTURE_PER_PAGE + 1))
+        int page = offset / Const.PICTURE_PER_PAGE + 1;
+        if (page == currentPage) {
+            return Observable.just(new ArrayList());
+        } else {
+            currentPage = page;
+        }
+        return onUi(useCase.getPage(keyword, page))
             .doOnSubscribe(d -> getViewState().showThrobber())
             .doOnNext(data -> {
                 getViewState().hideThrobber();
@@ -113,5 +135,11 @@ public class PictureListPresenter extends BasePresenter<PictureListView>
     @Override
     protected String getScreenTag() {
         return "PhotoList";
+    }
+
+    public void loadNextPageIfAvailable() {
+        if (totalHits != 0 && pictures.size() < totalHits) {
+            getViewState().preparePagination();
+        }
     }
 }

@@ -19,6 +19,7 @@ import com.sergon146.core.utils.ViewUitl;
 import com.sergon146.mobilization18.R;
 import com.sergon146.mobilization18.ui.base.BaseMvpFragment;
 import com.sergon146.mobilization18.ui.fragments.picture.picturelist.adapter.PictureListAdapter;
+import com.sergon146.mobilization18.util.NetworkUtil;
 
 import java.util.List;
 
@@ -44,6 +45,8 @@ public class PictureListFragment extends BaseMvpFragment<PictureListPresenter>
     EditText searchText;
     @BindView(R.id.throbber)
     ProgressBar throbber;
+    @BindView(R.id.connection_lost)
+    View connectionLost;
 
     @Inject
     @InjectPresenter
@@ -69,10 +72,31 @@ public class PictureListFragment extends BaseMvpFragment<PictureListPresenter>
         View view = inflater.inflate(R.layout.fragment_picture_list, container, false);
         ButterKnife.bind(this, view);
         initRecycler();
-
         searchText.setText(keyword);
+
+        restore(savedInstanceState);
+
+        checkNetwork();
         return view;
     }
+
+    private void restore(Bundle savedInstanceState) {
+        if (savedInstanceState == null) {
+            return;
+        }
+
+        keyword = savedInstanceState.getString(SEARCH_TEXT);
+        listState = savedInstanceState.getParcelable(RECYCLER_STATE);
+    }
+
+    private void checkNetwork() {
+        if (NetworkUtil.isLostConnection(getContext())) {
+            connectionLost();
+        } else {
+            connectionRestore();
+        }
+    }
+
 
     @Override
     public void onResume() {
@@ -83,20 +107,6 @@ public class PictureListFragment extends BaseMvpFragment<PictureListPresenter>
     }
 
     private void initRecycler() {
-//        AutoFitGridLayoutManager layoutManager =
-//            new AutoFitGridLayoutManager(getContext(), recyclerView);
-//        layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
-//            @Override
-//            public int getSpanSize(int position) {
-//                int itemViewType = adapter.getItemViewType(position);
-//                if (itemViewType == PictureListAdapter.THROBBER_VIEW_TYPE
-//                    || itemViewType == PictureListAdapter.TITLE_VIEW_TYPE) {
-//                    return layoutManager.getSpanCount();
-//                }
-//                return 1;
-//            }
-//        });
-
         int spanCount = getResources().getInteger(R.integer.list_column_count);
         GridLayoutManager layoutManager = new GridLayoutManager(getContext(), spanCount);
         layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
@@ -120,28 +130,17 @@ public class PictureListFragment extends BaseMvpFragment<PictureListPresenter>
     @OnClick(R.id.search)
     void onSearchClick() {
         String newKeyword = searchText.getText().toString();
-        if (keyword.equals(newKeyword)) {
+        if (keyword.equals(newKeyword) && !adapter.isEmpty()) {
             return;
         } else {
             keyword = newKeyword;
         }
 
         if (!keyword.isEmpty()) {
-            presenter.loadFirstPage(keyword);
+            getPresenter().loadFirstPage(keyword);
         }
 
         ViewUitl.hideKeyboard(getContext(), getView());
-    }
-
-    @Override
-    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
-        super.onViewStateRestored(savedInstanceState);
-        if (savedInstanceState == null) {
-            return;
-        }
-
-        keyword = savedInstanceState.getString(SEARCH_TEXT);
-        listState = savedInstanceState.getParcelable(RECYCLER_STATE);
     }
 
     @Override
@@ -158,18 +157,40 @@ public class PictureListFragment extends BaseMvpFragment<PictureListPresenter>
     }
 
     @Override
+    public void connectionLost() {
+        if (adapter.isEmpty()) {
+            recyclerView.setVisibility(View.GONE);
+            connectionLost.setVisibility(View.VISIBLE);
+        } else {
+            hideThrobber();
+        }
+    }
+
+    @Override
+    public void connectionRestore() {
+        recyclerView.setVisibility(View.VISIBLE);
+        connectionLost.setVisibility(View.GONE);
+
+        if (!adapter.isEmpty()) {
+            getPresenter().startPagination();
+        }
+    }
+
+    @Override
     public void initShowPictures(List<Picture> pictures, ResultTitle resultTitle) {
         adapter.setItems(pictures, resultTitle);
     }
 
     @Override
-    public void prepareRecycler() {
+    public void preparePagination() {
         getPresenter().preparePagination(recyclerView);
     }
 
     @Override
     public void showThrobber() {
-        adapter.showThrobber();
+        if (!NetworkUtil.isLostConnection(getContext())) {
+            adapter.showThrobber();
+        }
     }
 
     @Override
