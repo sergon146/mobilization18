@@ -74,8 +74,19 @@ public class PictureListFragment extends BaseMvpFragment<PictureListPresenter>
         initRecycler();
         searchText.setText(keyword);
 
+        restore(savedInstanceState);
+
         checkNetwork();
         return view;
+    }
+
+    private void restore(Bundle savedInstanceState) {
+        if (savedInstanceState == null) {
+            return;
+        }
+
+        keyword = savedInstanceState.getString(SEARCH_TEXT);
+        listState = savedInstanceState.getParcelable(RECYCLER_STATE);
     }
 
     private void checkNetwork() {
@@ -85,6 +96,7 @@ public class PictureListFragment extends BaseMvpFragment<PictureListPresenter>
             connectionRestore();
         }
     }
+
 
     @Override
     public void onResume() {
@@ -129,17 +141,6 @@ public class PictureListFragment extends BaseMvpFragment<PictureListPresenter>
         }
 
         ViewUitl.hideKeyboard(getContext(), getView());
-    }
-
-    @Override
-    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
-        super.onViewStateRestored(savedInstanceState);
-        if (savedInstanceState == null) {
-            return;
-        }
-
-        keyword = savedInstanceState.getString(SEARCH_TEXT);
-        listState = savedInstanceState.getParcelable(RECYCLER_STATE);
     }
 
     @Override
