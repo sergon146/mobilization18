@@ -30,8 +30,10 @@ public class PictureListPresenter extends BasePresenter<PictureListView>
     implements PagingListener<List>, PaginationTool.LoadedItemsCounter {
     private final PictureListUseCase useCase;
     public List<Picture> pictures = new ArrayList<>();
+    PaginationTool<List> paginationTool;
     private String keyword = "";
     private int totalHits;
+    private int currentPage = 1;
 
     public PictureListPresenter(MainRouter router, PictureListUseCase useCase) {
         super(router);
@@ -45,6 +47,7 @@ public class PictureListPresenter extends BasePresenter<PictureListView>
 
     public void loadFirstPage(String keyword) {
         this.keyword = keyword;
+        this.currentPage = 1;
         bind(onUi(useCase.getData(keyword))
             .doOnSubscribe(d -> getViewState().showMainThrobber())
             .doOnTerminate(() -> getViewState().hideMainThrobber())
@@ -73,10 +76,17 @@ public class PictureListPresenter extends BasePresenter<PictureListView>
             return;
         }
 
-        PaginationTool<List> paginationTool =
-            PaginationTool.buildPagingObservable(recyclerView, this, this)
-                .setTotal(totalHits)
-                .build();
+        paginationTool = PaginationTool.buildPagingObservable(recyclerView, this, this)
+            .setTotal(totalHits)
+            .build();
+
+        startPagination();
+    }
+
+    public void startPagination() {
+        if (paginationTool == null) {
+            return;
+        }
 
         bind(onUi(paginationTool.getPagingObservable())
                 .subscribe(data -> {
@@ -87,7 +97,13 @@ public class PictureListPresenter extends BasePresenter<PictureListView>
 
     @Override
     public Observable<List> onNextPage(int offset) {
-        return onUi(useCase.getPage(keyword, offset / Const.PICTURE_PER_PAGE + 1))
+        int page = offset / Const.PICTURE_PER_PAGE + 1;
+        if (page == currentPage) {
+            return Observable.just(new ArrayList());
+        } else {
+            currentPage = page;
+        }
+        return onUi(useCase.getPage(keyword, page))
             .doOnSubscribe(d -> getViewState().showThrobber())
             .doOnNext(data -> {
                 getViewState().hideThrobber();
@@ -119,5 +135,11 @@ public class PictureListPresenter extends BasePresenter<PictureListView>
     @Override
     protected String getScreenTag() {
         return "PhotoList";
+    }
+
+    public void loadNextPageIfAvailable() {
+        if (totalHits != 0 && pictures.size() < totalHits) {
+            getViewState().preparePagination();
+        }
     }
 }
