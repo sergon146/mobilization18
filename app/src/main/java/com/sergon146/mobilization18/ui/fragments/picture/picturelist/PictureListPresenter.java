@@ -52,7 +52,6 @@ public class PictureListPresenter extends BasePresenter<PictureListView>
             .doOnSubscribe(d -> getViewState().showMainThrobber())
             .doOnTerminate(() -> getViewState().hideMainThrobber())
             .subscribe(data -> {
-                    getViewState().hideThrobber();
                     this.totalHits = data.getTotalCounts();
                     this.pictures.clear();
                     this.pictures.addAll(data.getPictures());
@@ -99,6 +98,7 @@ public class PictureListPresenter extends BasePresenter<PictureListView>
     public Observable<List> onNextPage(int offset) {
         int page = offset / Const.PICTURE_PER_PAGE + 1;
         if (page == currentPage) {
+            getViewState().hideThrobber();
             return Observable.just(new ArrayList());
         } else {
             currentPage = page;
