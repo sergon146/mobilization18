@@ -20,7 +20,7 @@ public class PictureDetailUseCaseImpl implements PictureDetailUseCase {
     }
 
     @Override
-    public Observable<PicturesList> getPage(String queryKeyword, int page) {
-        return pictureRepository.loadPage(queryKeyword, page);
+    public Observable<PicturesList> getPage(String queryKeyword, int page, int countPerPage) {
+        return pictureRepository.loadPage(queryKeyword, page, countPerPage);
     }
 }

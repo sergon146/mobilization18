@@ -14,4 +14,6 @@ public interface PictureRepository {
     Observable<PicturesList> loadPage(String keyword);
 
     Observable<PicturesList> loadPage(String queryKeyword, int page);
+
+    Observable<PicturesList> loadPage(String queryKeyword, int page, int contPerPage);
 }

@@ -22,6 +22,7 @@ import java.util.List;
 @InjectViewState
 public class PictureDetailPresenter extends BasePresenter<PictureDetailView> {
     private static final int UPDATE_LIMIT = 2;
+    private static final int PICTURE_PER_PAGE = 10;
 
     private final PictureDetailUseCase useCase;
     private List<Picture> pictures = new ArrayList<>();
@@ -29,6 +30,7 @@ public class PictureDetailPresenter extends BasePresenter<PictureDetailView> {
     private int totalCount = 0;
     private String keyword;
     private boolean isNextPageLoading = false;
+    private int currentPage;
 
     public PictureDetailPresenter(MainRouter router, PictureDetailUseCase useCase) {
         super(router);
@@ -41,6 +43,7 @@ public class PictureDetailPresenter extends BasePresenter<PictureDetailView> {
         currentPosition = data.getPosition();
         totalCount = data.getTotalCounts();
         keyword = data.getKeyword();
+        currentPage = pictures.size() / PICTURE_PER_PAGE;
 
         getViewState().initShowPictures(pictures);
         getViewState().showPicture(currentPosition);
@@ -66,16 +69,17 @@ public class PictureDetailPresenter extends BasePresenter<PictureDetailView> {
     }
 
     private void loadNextPage() {
-        bind(onUi(useCase.getPage(keyword, pictures.size() / 20 + 1))
-            .doOnSubscribe(d -> isNextPageLoading = true)
-            .doOnTerminate(() -> isNextPageLoading = false)
-            .subscribe(data -> {
-                    List<Picture> pictures = data.getPictures();
-                    this.pictures.addAll(pictures);
-                    getViewState().addPictures(pictures);
-                    checkArrow(currentPosition);
-                },
-                th -> Logger.v(getScreenTag(), th.getMessage())), LifeLevel.PER_PRESENTER);
+        bind(onUi(useCase.getPage(keyword, ++currentPage, PICTURE_PER_PAGE))
+                .doOnSubscribe(d -> isNextPageLoading = true)
+                .doOnTerminate(() -> isNextPageLoading = false)
+                .subscribe(data -> {
+                        List<Picture> pictures = data.getPictures();
+                        this.pictures.addAll(pictures);
+                        getViewState().addPictures(pictures);
+                        checkArrow(currentPosition);
+                    },
+                    th -> Logger.v(getScreenTag(), th.getMessage())),
+            LifeLevel.PER_PRESENTER);
     }
 
     private void checkArrow(int currentPosition) {
@@ -91,7 +95,6 @@ public class PictureDetailPresenter extends BasePresenter<PictureDetailView> {
             getViewState().showRightArrow();
         }
     }
-
 
     public void navigateBack() {
         goBack();
