@@ -112,7 +112,7 @@ public class PictureDetailFragment extends BaseMvpFragment<PictureDetailPresente
 
     @Override
     public void showPicture(int currentPosition) {
-        pager.setCurrentItem(currentPosition);
+         pager.setCurrentItem(currentPosition);
     }
 
     @Override

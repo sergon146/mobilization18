@@ -44,6 +44,7 @@ public class PictureDetailPresenter extends BasePresenter<PictureDetailView> {
 
         getViewState().initShowPictures(pictures);
         getViewState().showPicture(currentPosition);
+        pageChanged(currentPosition);
     }
 
     public void pageChanged(int newPosition) {
@@ -58,8 +59,8 @@ public class PictureDetailPresenter extends BasePresenter<PictureDetailView> {
     }
 
     public void loadNextIfAvailable() {
-        if (currentPosition >= pictures.size() - UPDATE_LIMIT - 1 && pictures.size() < totalCount
-            && !isNextPageLoading) {
+        if (currentPosition >= pictures.size() - UPDATE_LIMIT - 1
+            && pictures.size() < totalCount && !isNextPageLoading) {
             loadNextPage();
         }
     }

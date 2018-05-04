@@ -147,6 +147,11 @@ public class PictureListFragment extends BaseMvpFragment<PictureListPresenter>
     }
 
     @Override
+    public void addPictures(List<Picture> pictures) {
+        adapter.addItems(pictures);
+    }
+
+    @Override
     public void preparePagination() {
         getPresenter().preparePagination(recyclerView);
     }
@@ -161,11 +166,6 @@ public class PictureListFragment extends BaseMvpFragment<PictureListPresenter>
     @Override
     public void hideThrobber() {
         adapter.hideThrobber();
-    }
-
-    @Override
-    public void addPictures(List<Picture> pictures) {
-        adapter.addItems(pictures);
     }
 
     @Override
