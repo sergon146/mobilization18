@@ -113,12 +113,12 @@ public class PictureListPresenter extends BasePresenter<PictureListView>
     }
 
     @Override
-    public void showTrobber() {
+    public void showThrobber() {
         getViewState().showThrobber();
     }
 
     @Override
-    public void hideTrobber() {
+    public void hideThrobber() {
         getViewState().hideThrobber();
     }
 

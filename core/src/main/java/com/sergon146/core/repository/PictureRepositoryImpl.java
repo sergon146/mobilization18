@@ -4,6 +4,7 @@ import com.sergon146.business.model.picture.PicturesList;
 import com.sergon146.business.repository.PictureRepository;
 import com.sergon146.core.api.PictureApiService;
 import com.sergon146.core.mappers.PictureListMapper;
+import com.sergon146.core.utils.Const;
 
 import io.reactivex.Observable;
 
@@ -14,7 +15,6 @@ import io.reactivex.Observable;
 
 public class PictureRepositoryImpl implements PictureRepository {
     private static final int FIRST_PAGE = 1;
-    private static final int DEFAULT_PER_PAGE = 20;
 
     private final PictureApiService apiService;
     private PictureListMapper pictureListMapper = new PictureListMapper();
@@ -30,7 +30,7 @@ public class PictureRepositoryImpl implements PictureRepository {
 
     @Override
     public Observable<PicturesList> loadPage(String queryKeyword, int page) {
-        return loadPage(queryKeyword, page, DEFAULT_PER_PAGE);
+        return loadPage(queryKeyword, page, Const.PICTURE_PER_PAGE);
     }
 
     @Override
