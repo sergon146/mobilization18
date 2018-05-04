@@ -1,7 +1,6 @@
 package com.sergon146.mobilization18.ui.fragments.picture.picturelist;
 
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -15,6 +14,7 @@ import com.sergon146.business.model.base.ResultTitle;
 import com.sergon146.business.model.picture.Picture;
 import com.sergon146.core.utils.ViewUitl;
 import com.sergon146.mobilization18.R;
+import com.sergon146.mobilization18.di.base.Injectable;
 import com.sergon146.mobilization18.ui.base.BaseMvpFragment;
 import com.sergon146.mobilization18.ui.fragments.picture.picturelist.adapter.PictureListAdapter;
 import com.sergon146.mobilization18.util.NetworkUtil;
@@ -33,10 +33,7 @@ import butterknife.OnClick;
  * @since 15.04.2018
  */
 public class PictureListFragment extends BaseMvpFragment<PictureListPresenter>
-    implements PictureListView {
-
-    private static final String SEARCH_TEXT = "SEARCH_TEXT";
-    private static final String RECYCLER_STATE = "RECYCLER_STATE";
+    implements PictureListView, Injectable {
 
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
@@ -51,7 +48,6 @@ public class PictureListFragment extends BaseMvpFragment<PictureListPresenter>
     @InjectPresenter
     PictureListPresenter presenter;
 
-    private Parcelable listState;
     private PictureListAdapter adapter;
     private String keyword = "";
 
@@ -71,21 +67,8 @@ public class PictureListFragment extends BaseMvpFragment<PictureListPresenter>
         View view = inflater.inflate(R.layout.fragment_picture_list, container, false);
         ButterKnife.bind(this, view);
         initRecycler();
-        searchText.setText(keyword);
-
-        restore(savedInstanceState);
-
         checkNetwork();
         return view;
-    }
-
-    private void restore(Bundle savedInstanceState) {
-        if (savedInstanceState == null) {
-            return;
-        }
-
-        keyword = savedInstanceState.getString(SEARCH_TEXT);
-        listState = savedInstanceState.getParcelable(RECYCLER_STATE);
     }
 
     private void checkNetwork() {
@@ -93,14 +76,6 @@ public class PictureListFragment extends BaseMvpFragment<PictureListPresenter>
             connectionLost();
         } else {
             connectionRestore();
-        }
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (listState != null) {
-            recyclerView.getLayoutManager().onRestoreInstanceState(listState);
         }
     }
 
@@ -139,14 +114,6 @@ public class PictureListFragment extends BaseMvpFragment<PictureListPresenter>
         }
 
         ViewUitl.hideKeyboard(getContext(), getView());
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putString(SEARCH_TEXT, searchText.getText().toString());
-        listState = recyclerView.getLayoutManager().onSaveInstanceState();
-        outState.putParcelable(RECYCLER_STATE, listState);
     }
 
     @Override

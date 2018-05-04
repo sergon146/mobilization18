@@ -12,6 +12,7 @@ import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.sergon146.business.model.picture.Picture;
 import com.sergon146.business.model.picture.PicturesList;
 import com.sergon146.mobilization18.R;
+import com.sergon146.mobilization18.di.base.Injectable;
 import com.sergon146.mobilization18.ui.base.BaseMvpFragment;
 import com.sergon146.mobilization18.ui.fragments.picture.picturedetail.adapter.PicturePageAdapter;
 
@@ -31,7 +32,7 @@ import butterknife.OnClick;
  */
 
 public class PictureDetailFragment extends BaseMvpFragment<PictureDetailPresenter>
-    implements PictureDetailView {
+    implements PictureDetailView, Injectable {
     private static final String PICTURES_DTO_ARG = "PICTURES_DTO_ARG";
 
     @BindView(R.id.pager)
