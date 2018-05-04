@@ -26,7 +26,6 @@ android {
 
 ext.MOXY_VERSION = "1.5.3"
 ext.DAGGER_VERSION = "2.15"
-ext.RETROFIT_VERSION = "2.1.0"
 
 dependencies {
     implementation project(path: ':core')

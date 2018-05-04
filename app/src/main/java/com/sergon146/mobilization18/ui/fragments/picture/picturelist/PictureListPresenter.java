@@ -9,8 +9,6 @@ import com.sergon146.business.model.base.ResultTitle;
 import com.sergon146.business.model.picture.Picture;
 import com.sergon146.business.model.picture.PicturesList;
 import com.sergon146.core.utils.Const;
-import com.sergon146.core.utils.Logger;
-import com.sergon146.mobilization18.R;
 import com.sergon146.mobilization18.navigation.MainRouter;
 import com.sergon146.mobilization18.ui.base.BasePresenter;
 import com.sergon146.mobilization18.util.pagination.PaginationTool;
@@ -63,7 +61,7 @@ public class PictureListPresenter extends BasePresenter<PictureListView>
                         getViewState().preparePagination();
                     }
 
-                    Logger.d(getScreenTag(),
+                    Log.d(getScreenTag(),
                         "Loaded first page, loaded: " + data.getPictures().size()
                             + " of " + totalHits);
                 },

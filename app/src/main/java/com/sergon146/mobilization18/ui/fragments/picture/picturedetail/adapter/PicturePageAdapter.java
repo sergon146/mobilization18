@@ -1,6 +1,5 @@
 package com.sergon146.mobilization18.ui.fragments.picture.picturedetail.adapter;
 
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,10 +7,9 @@ import android.view.ViewGroup;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.drawable.ProgressBarDrawable;
 import com.facebook.drawee.view.SimpleDraweeView;
-import com.facebook.imagepipeline.core.ImagePipeline;
 import com.sergon146.business.model.picture.Picture;
 import com.sergon146.mobilization18.R;
-import com.sergon146.mobilization18.ui.view.components.RecycledPageAdapter;
+import com.sergon146.mobilization18.ui.components.RecycledPageAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
