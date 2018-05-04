@@ -11,8 +11,8 @@ import com.sergon146.business.model.base.Throbber;
 import com.sergon146.business.model.picture.Picture;
 import com.sergon146.business.model.picture.PicturesList;
 import com.sergon146.mobilization18.R;
-import com.sergon146.mobilization18.ui.components.ResultTitleViewHolder;
-import com.sergon146.mobilization18.ui.components.ThrobberViewHolder;
+import com.sergon146.mobilization18.ui.components.holders.ResultTitleViewHolder;
+import com.sergon146.mobilization18.ui.components.holders.ThrobberViewHolder;
 
 import java.util.ArrayList;
 import java.util.List;

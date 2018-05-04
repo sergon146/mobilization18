@@ -7,13 +7,13 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
 
 import com.sergon146.mobilization18.App;
 import com.sergon146.mobilization18.BuildConfig;
 import com.sergon146.mobilization18.di.component.AppComponent;
 import com.sergon146.mobilization18.di.component.DaggerAppComponent;
-import com.sergon146.mobilization18.ui.LogNamed;
-import com.sergon146.core.utils.Logger;
+import com.sergon146.mobilization18.ui.base.LogNamed;
 
 import dagger.android.AndroidInjection;
 import dagger.android.support.AndroidSupportInjection;
@@ -114,15 +114,15 @@ public class AppInjector {
         private static final String TAG = "screenLogger";
 
         void onFragmentOpened(LogNamed fragment) {
-            Logger.d(TAG, "fragment opened " + fragment.getLogName());
+            Log.d(TAG, "fragment opened " + fragment.getLogName());
         }
 
         void onActivityOpened(LogNamed activity) {
-            Logger.d(TAG, "activity opened " + activity.getLogName());
+            Log.d(TAG, "activity opened " + activity.getLogName());
         }
 
         void onFragmentDestroyed(LogNamed fragment) {
-            Logger.d(TAG, "fragment destroyed " + fragment.getLogName());
+            Log.d(TAG, "fragment destroyed " + fragment.getLogName());
         }
 
     }

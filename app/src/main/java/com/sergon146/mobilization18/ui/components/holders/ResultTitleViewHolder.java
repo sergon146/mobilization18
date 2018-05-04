@@ -1,4 +1,4 @@
-package com.sergon146.mobilization18.ui.components;
+package com.sergon146.mobilization18.ui.components.holders;
 
 import android.content.res.Resources;
 import android.support.v7.widget.RecyclerView;

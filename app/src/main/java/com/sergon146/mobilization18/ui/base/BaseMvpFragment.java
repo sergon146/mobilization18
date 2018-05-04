@@ -11,7 +11,6 @@ import android.widget.Toast;
 import com.sergon146.mobilization18.R;
 import com.sergon146.mobilization18.di.base.Injectable;
 import com.sergon146.mobilization18.di.base.InjectableFragment;
-import com.sergon146.mobilization18.ui.LogNamed;
 
 /**
  * @author Sergon146 (sergon146@gmail.com).

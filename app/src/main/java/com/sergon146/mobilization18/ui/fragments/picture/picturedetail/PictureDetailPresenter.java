@@ -1,11 +1,12 @@
 package com.sergon146.mobilization18.ui.fragments.picture.picturedetail;
 
+import android.util.Log;
+
 import com.arellomobile.mvp.InjectViewState;
 import com.sergon146.business.contracts.PictureDetailUseCase;
 import com.sergon146.business.model.picture.Picture;
 import com.sergon146.business.model.picture.PicturesList;
 import com.sergon146.core.utils.Const;
-import com.sergon146.core.utils.Logger;
 import com.sergon146.mobilization18.App;
 import com.sergon146.mobilization18.R;
 import com.sergon146.mobilization18.navigation.MainRouter;
@@ -78,7 +79,7 @@ public class PictureDetailPresenter extends BasePresenter<PictureDetailView> {
                         getViewState().addPictures(pictures);
                         checkArrow(currentPosition);
                     },
-                    th -> Logger.v(getScreenTag(), th.getMessage())),
+                    th -> Log.v(getScreenTag(), th.getMessage())),
             LifeLevel.PER_PRESENTER);
     }
 
