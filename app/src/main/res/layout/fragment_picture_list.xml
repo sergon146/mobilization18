@@ -7,38 +7,40 @@
     tools:context="com.sergon146.mobilization18.ui.fragments.picture.picturelist.PictureListFragment"
     >
 
-    <android.support.v7.widget.CardView
+    <android.support.v7.widget.Toolbar
         android:id="@+id/card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardBackgroundColor="@color/colorPrimary"
-        app:cardElevation="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
         >
 
-        <android.support.constraint.ConstraintLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            tools:layout_editor_absoluteX="16dp"
             >
 
             <EditText
                 android:id="@+id/search_text"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:layout_marginEnd="12dp"
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="8dp"
+                android:layout_weight="1"
                 android:backgroundTint="@color/charcoal_grey"
                 android:ems="10"
+                android:hint="@string/search_hint"
                 android:inputType="text"
                 android:textCursorDrawable="@drawable/black_cursor_drawable"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/search"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/title"
+                app:layout_constraintTop_toTopOf="parent"
                 />
 
             <TextView
@@ -57,28 +59,10 @@
                 app:layout_constraintTop_toTopOf="@+id/search_text"
                 />
 
-            <TextView
-                android:id="@+id/title"
-                style="@style/TextStyle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="12dp"
-                android:layout_marginStart="12dp"
-                android:layout_marginTop="12dp"
-                android:paddingBottom="8dp"
-                android:paddingEnd="16dp"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:paddingStart="16dp"
-                android:paddingTop="8dp"
-                android:text="@string/search_title"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                />
-        </android.support.constraint.ConstraintLayout>
-    </android.support.v7.widget.CardView>
+        </LinearLayout>
+
+
+    </android.support.v7.widget.Toolbar>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view"
@@ -105,7 +89,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/card"
         />
 
     <com.wang.avi.AVLoadingIndicatorView
