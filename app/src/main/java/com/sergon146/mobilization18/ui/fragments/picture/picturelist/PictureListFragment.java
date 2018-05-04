@@ -127,6 +127,8 @@ public class PictureListFragment extends BaseMvpFragment<PictureListPresenter>
             recyclerView.setVisibility(View.GONE);
             connectionLost.setVisibility(View.VISIBLE);
         } else {
+            recyclerView.setVisibility(View.VISIBLE);
+            connectionLost.setVisibility(View.GONE);
             hideThrobber();
         }
     }

@@ -1,6 +1,7 @@
 package com.sergon146.mobilization18.ui.fragments.picture.picturelist;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.sergon146.business.contracts.PictureListUseCase;
@@ -90,7 +91,7 @@ public class PictureListPresenter extends BasePresenter<PictureListView>
         bind(onUi(paginationTool.getPagingObservable())
                 .subscribe(data -> {
                     },
-                    throwable -> getViewState().showToast(R.string.loading_error)),
+                    throwable -> Log.e(getScreenTag(), throwable.getMessage())),
             LifeLevel.PER_UI);
     }
 

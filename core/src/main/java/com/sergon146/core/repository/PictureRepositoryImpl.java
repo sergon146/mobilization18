@@ -14,6 +14,7 @@ import io.reactivex.Observable;
 
 public class PictureRepositoryImpl implements PictureRepository {
     private static final int FIRST_PAGE = 1;
+    private static final int DEFAULT_PER_PAGE = 20;
 
     private final PictureApiService apiService;
     private PictureListMapper pictureListMapper = new PictureListMapper();
@@ -29,6 +30,12 @@ public class PictureRepositoryImpl implements PictureRepository {
 
     @Override
     public Observable<PicturesList> loadPage(String queryKeyword, int page) {
-        return apiService.getPage(queryKeyword, page).map(t -> pictureListMapper.from(t));
+        return loadPage(queryKeyword, page, DEFAULT_PER_PAGE);
+    }
+
+    @Override
+    public Observable<PicturesList> loadPage(String queryKeyword, int page, int contPerPage) {
+        return apiService.getPage(queryKeyword, page, contPerPage)
+            .map(resp -> pictureListMapper.from(resp));
     }
 }

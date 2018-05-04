@@ -15,5 +15,6 @@ public interface PictureApiService {
 
     @GET("api/")
     Observable<PictureResponse> getPage(@Query("q") String queryKeyword,
-                                        @Query("page") int page);
+                                        @Query("page") int page,
+                                        @Query("per_page") int perPage);
 }
