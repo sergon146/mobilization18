@@ -22,7 +22,7 @@ import io.reactivex.Observable;
 public interface PagingListener<T> {
     Observable<T> onNextPage(int offset);
 
-    void showTrobber();
+    void showThrobber();
 
-    void hideTrobber();
+    void hideThrobber();
 }

@@ -70,8 +70,8 @@ public class PaginationTool<T> {
             .subscribeOn(AndroidSchedulers.mainThread())
             .distinctUntilChanged()
             .observeOn(AndroidSchedulers.mainThread())
-            .doOnNext(s -> pagingListener.showTrobber())
-            .doOnTerminate(() -> pagingListener.hideTrobber())
+            .doOnNext(s -> pagingListener.showThrobber())
+            .doOnTerminate(() -> pagingListener.hideThrobber())
             .observeOn(Schedulers.from(BackgroundExecutor.getSafeBackgroundExecutor()))
             .switchMap(offset ->
                 getPagingObservable(pagingListener, pagingListener.onNextPage(offset),

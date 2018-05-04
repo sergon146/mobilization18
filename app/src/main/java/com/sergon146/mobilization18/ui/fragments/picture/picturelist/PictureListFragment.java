@@ -137,6 +137,7 @@ public class PictureListFragment extends BaseMvpFragment<PictureListPresenter>
     public void connectionRestore() {
         recyclerView.setVisibility(View.VISIBLE);
         connectionLost.setVisibility(View.GONE);
+        adapter.notifyDataSetChanged();
 
         if (!adapter.isEmpty()) {
             getPresenter().startPagination();
