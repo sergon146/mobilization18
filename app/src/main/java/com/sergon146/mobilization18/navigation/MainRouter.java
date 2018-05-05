@@ -1,7 +1,7 @@
 package com.sergon146.mobilization18.navigation;
 
 
-import com.sergon146.business.model.PicturesList;
+import com.sergon146.business.model.picture.PicturesList;
 
 import ru.terrakok.cicerone.BaseRouter;
 import ru.terrakok.cicerone.Navigator;

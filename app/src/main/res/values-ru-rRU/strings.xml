@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">Picture Finder</string>
+
+    <string name="connection_error">Подключение к интернету отсутствует!</string>
+
+    <string name="loading_error">При загрузке произошла ошибка!</string>
+
+    <string name="search_hint">Поиск изображений</string>
+    <string name="search">Поиск</string>
+    <string name="search_result">По запросу \"%1$s\" найдено %2$s</string>
+
+    <string name="picture_state">%1$d из %2$d</string>
+
+    <plurals name="hours_count_to_watch">
+        <item quantity="one">%1$d изображение</item>
+        <item quantity="few">%1$d изображения</item>
+        <item quantity="many">%1$d изображений</item>
+        <item quantity="other">%1$d изображений</item>
+    </plurals>
+</resources>

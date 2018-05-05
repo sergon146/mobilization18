@@ -2,7 +2,6 @@ package com.sergon146.mobilization18.ui.base;
 
 import com.arellomobile.mvp.MvpPresenter;
 import com.arellomobile.mvp.MvpView;
-import com.sergon146.core.utils.NetworkUtil;
 
 import io.reactivex.Completable;
 import io.reactivex.Flowable;
@@ -21,6 +20,7 @@ import io.reactivex.disposables.Disposable;
  */
 public abstract class BaseSchedulablePresenter<View extends MvpView> extends MvpPresenter<View> {
     private final CompositeDisposable viewDisposable = new CompositeDisposable();
+    private final CompositeDisposable uiDisposable = new CompositeDisposable();
     private final CompositeDisposable presenterDisposable = new CompositeDisposable();
 
     protected void bind(Disposable disposable, LifeLevel level) {
@@ -31,6 +31,8 @@ public abstract class BaseSchedulablePresenter<View extends MvpView> extends Mvp
             case PER_PRESENTER:
                 presenterDisposable.add(disposable);
                 break;
+            case PER_UI:
+                uiDisposable.add(disposable);
             default:
         }
     }
@@ -41,6 +43,12 @@ public abstract class BaseSchedulablePresenter<View extends MvpView> extends Mvp
         if (getAttachedViews().size() == 0) {
             viewDisposable.clear();
         }
+    }
+
+    @Override
+    public void destroyView(View view) {
+        super.destroyView(view);
+        uiDisposable.clear();
     }
 
     @Override
@@ -69,6 +77,7 @@ public abstract class BaseSchedulablePresenter<View extends MvpView> extends Mvp
 
     public enum LifeLevel {
         PER_VIEW,
-        PER_PRESENTER
+        PER_PRESENTER,
+        PER_UI
     }
 }

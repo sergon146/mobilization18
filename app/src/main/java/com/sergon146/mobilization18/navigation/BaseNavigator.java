@@ -3,9 +3,9 @@ package com.sergon146.mobilization18.navigation;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 
 import com.google.gson.Gson;
-import com.sergon146.core.utils.Logger;
 
 import ru.terrakok.cicerone.android.SupportAppNavigator;
 import ru.terrakok.cicerone.commands.Command;
@@ -27,7 +27,7 @@ public abstract class BaseNavigator extends SupportAppNavigator {
 
     @Override
     public void applyCommand(final Command command) {
-        Logger.v(TAG, "applyCommand " + printCommand(command));
+        Log.v(TAG, "applyCommand " + printCommand(command));
         super.applyCommand(command);
     }
 
@@ -37,21 +37,21 @@ public abstract class BaseNavigator extends SupportAppNavigator {
 
     @Override
     protected Intent createActivityIntent(final String screenKey, final Object data) {
-        Logger.v(TAG, "navigate to activity " + screenKey + " with data = "
+        Log.v(TAG, "navigate to activity " + screenKey + " with data = "
                 + new Gson().toJson(data));
         return null;
     }
 
     @Override
     protected Fragment createFragment(final String screenKey, final Object data) {
-        Logger.v(TAG, "navigate to fragment " + screenKey + " with data = "
+        Log.v(TAG, "navigate to fragment " + screenKey + " with data = "
                 + new Gson().toJson(data));
         return null;
     }
 
     @Override
     protected void unknownScreen(Command command) {
-        Logger.w(TAG, "unknown screen ", printCommand(command));
+        Log.e(TAG, "unknown screen " + printCommand(command));
     }
 
     public int getContainerId() {

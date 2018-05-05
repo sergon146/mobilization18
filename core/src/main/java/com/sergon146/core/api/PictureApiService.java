@@ -3,7 +3,6 @@ package com.sergon146.core.api;
 import com.sergon146.core.api.entities.PictureResponse;
 
 import io.reactivex.Observable;
-import io.reactivex.Single;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 
@@ -15,5 +14,7 @@ import retrofit2.http.Query;
 public interface PictureApiService {
 
     @GET("api/")
-    Observable<PictureResponse> getData(@Query("q") String query);
+    Observable<PictureResponse> getPage(@Query("q") String queryKeyword,
+                                        @Query("page") int page,
+                                        @Query("per_page") int perPage);
 }

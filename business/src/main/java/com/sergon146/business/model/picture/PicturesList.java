@@ -1,4 +1,4 @@
-package com.sergon146.business.model;
+package com.sergon146.business.model.picture;
 
 import com.sergon146.business.utils.Const;
 
@@ -13,24 +13,35 @@ import java.util.List;
 
 @Parcel
 public class PicturesList {
-    List<Picture> pictures;
-    int position = Const.NONE;
-    private int totalHits;
+    private List<Picture> pictures;
+    private int position = Const.NONE;
+    private int totalCounts;
+    private String keyword;
 
     public PicturesList() {
     }
 
-    public PicturesList(List<Picture> pictures, int position) {
+    public PicturesList(List<Picture> pictures, int position, int totalCounts, String keyword) {
         this.pictures = pictures;
         this.position = position;
+        this.totalCounts = totalCounts;
+        this.keyword = keyword;
     }
 
-    public int getTotalHits() {
-        return totalHits;
+    public String getKeyword() {
+        return keyword;
     }
 
-    public void setTotalHits(int totalHits) {
-        this.totalHits = totalHits;
+    public void setKeyword(String keyword) {
+        this.keyword = keyword;
+    }
+
+    public int getTotalCounts() {
+        return totalCounts;
+    }
+
+    public void setTotalCounts(int totalCounts) {
+        this.totalCounts = totalCounts;
     }
 
     public List<Picture> getPictures() {

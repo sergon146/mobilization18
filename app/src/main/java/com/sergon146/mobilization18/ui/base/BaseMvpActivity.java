@@ -23,7 +23,7 @@ import ru.terrakok.cicerone.NavigatorHolder;
  */
 
 public abstract class BaseMvpActivity<Presenter extends BasePresenter> extends InjectableActivity
-        implements BaseMvpView {
+    implements BaseMvpView {
 
     private static final String LOG_TAG = "BaseActivity";
     private final NavigateInjector navigateInjector = new NavigateInjector();
@@ -87,7 +87,18 @@ public abstract class BaseMvpActivity<Presenter extends BasePresenter> extends I
     }
 
     @Override
-    public void restartFragment() {
+    public void showLoadingError() {
+        Toast.makeText(getApplicationContext(), R.string.loading_error, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void connectionLost() {
+
+    }
+
+    @Override
+    public void connectionRestore() {
+
     }
 
     protected @IdRes

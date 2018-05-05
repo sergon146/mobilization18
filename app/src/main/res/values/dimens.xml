@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="list_space" >8dp</dimen>
-
-    <dimen name="list_image_width">160dp</dimen>
-    <dimen name="list_image_height">100dp</dimen>
+    <dimen name="list_space" >20dp</dimen>
+    <dimen name="list_image_height">120dp</dimen>
+    <dimen name="list_item_margin">2dp</dimen>
 </resources>

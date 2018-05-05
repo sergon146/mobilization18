@@ -1,4 +1,4 @@
-package com.sergon146.mobilization18.ui.view.components;
+package com.sergon146.mobilization18.ui.components;
 
 import android.support.v4.view.PagerAdapter;
 import android.view.View;

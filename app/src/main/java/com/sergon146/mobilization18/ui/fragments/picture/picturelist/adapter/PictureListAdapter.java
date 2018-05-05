@@ -6,9 +6,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.facebook.drawee.view.SimpleDraweeView;
-import com.sergon146.business.model.Picture;
-import com.sergon146.business.model.PicturesList;
+import com.sergon146.business.model.base.ResultTitle;
+import com.sergon146.business.model.base.Throbber;
+import com.sergon146.business.model.picture.Picture;
+import com.sergon146.business.model.picture.PicturesList;
 import com.sergon146.mobilization18.R;
+import com.sergon146.mobilization18.ui.components.holders.ResultTitleViewHolder;
+import com.sergon146.mobilization18.ui.components.holders.ThrobberViewHolder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,58 +25,146 @@ import butterknife.ButterKnife;
  * @since 15.04.2018
  */
 
-public class PictureListAdapter extends RecyclerView.Adapter<PictureListAdapter.ViewHolder> {
-    private List<Picture> pictures = new ArrayList<>();
+public class PictureListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    public static final int TITLE_VIEW_TYPE = 0;
+    public static final int THROBBER_VIEW_TYPE = 2;
+    public static final int PICTURE_VIEW_TYPE = 1;
+
     private PictureClickListener listener;
+    private List<Object> listElements = new ArrayList<>();
+    private List<Picture> pictures = new ArrayList<>();
+    private boolean isThrobberActive = false;
+    private int totalCount;
+    private String keyword;
 
     public PictureListAdapter(PictureClickListener listener) {
         this.listener = listener;
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.list_item_picture, parent, false);
-        return new ViewHolder(view);
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view;
+
+        switch (viewType) {
+            case TITLE_VIEW_TYPE:
+                view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.result_title, parent, false);
+                return new ResultTitleViewHolder(view);
+            case PICTURE_VIEW_TYPE:
+                view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.list_item_picture, parent, false);
+                return new PictureViewHolder(view);
+            case THROBBER_VIEW_TYPE:
+                view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.throbber, parent, false);
+                return new ThrobberViewHolder(view);
+            default:
+                throw new RuntimeException("Unknown view type");
+        }
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.bind(position, pictures.get(position));
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        switch (getItemViewType(position)) {
+            case PICTURE_VIEW_TYPE:
+                ((PictureViewHolder) holder).bind(position, (Picture) listElements.get(position));
+                break;
+            case TITLE_VIEW_TYPE:
+                ((ResultTitleViewHolder) holder).bind((ResultTitle) listElements.get(0));
+                break;
+            case THROBBER_VIEW_TYPE:
+                break;
+            default:
+                throw new RuntimeException("Unknown view type");
+        }
     }
 
-    public void setItems(List<Picture> items) {
+    @Override
+    public int getItemViewType(int position) {
+        Object item = listElements.get(position);
+        if (item instanceof Picture) {
+            return PICTURE_VIEW_TYPE;
+        } else if (item instanceof Throbber) {
+            return THROBBER_VIEW_TYPE;
+        } else if (item instanceof ResultTitle) {
+            return TITLE_VIEW_TYPE;
+        } else {
+            throw new RuntimeException("Unknown screen");
+        }
+    }
+
+    public boolean isEmpty() {
+        return pictures.isEmpty();
+    }
+
+    public void showThrobber() {
+        if (isThrobberActive) {
+            return;
+        }
+
+        isThrobberActive = true;
+
+        if (listElements.isEmpty()) {
+            listElements.add(new Throbber());
+            notifyItemInserted(0);
+        } else {
+            listElements.add(new Throbber());
+            notifyItemInserted(listElements.size() - 1);
+        }
+    }
+
+    public void hideThrobber() {
+        if (listElements.isEmpty() || !isThrobberActive) {
+            return;
+        }
+        isThrobberActive = false;
+
+        int throbberPos = listElements.size() - 1;
+        listElements.remove(throbberPos);
+        notifyItemRemoved(throbberPos);
+    }
+
+    public void setItems(List<Picture> items, ResultTitle resultTitle) {
+        listElements.clear();
+        listElements.add(resultTitle);
+        listElements.addAll(items);
+
         pictures.clear();
         pictures.addAll(items);
         notifyDataSetChanged();
+
+        totalCount = resultTitle.totalCount;
+        keyword = resultTitle.keyword;
     }
 
     public void addItems(List<Picture> items) {
+        listElements.addAll(items);
         pictures.addAll(items);
         notifyDataSetChanged();
     }
 
     @Override
     public int getItemCount() {
-        return pictures.size();
+        return listElements.size();
     }
-
 
     public interface PictureClickListener {
         void onClick(PicturesList picturesDto);
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    class PictureViewHolder extends RecyclerView.ViewHolder {
+
         @BindView(R.id.image)
         SimpleDraweeView image;
 
-        ViewHolder(View itemView) {
+        PictureViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
 
         void bind(int pos, Picture picture) {
-            itemView.setOnClickListener(v -> listener.onClick(new PicturesList(pictures, pos)));
+            itemView.setOnClickListener(v ->
+                listener.onClick(new PicturesList(pictures, pos - 1, totalCount, keyword)));
 
             String url = picture.getWebformatURL();
             if (url == null || url.isEmpty()) {
@@ -81,5 +173,6 @@ public class PictureListAdapter extends RecyclerView.Adapter<PictureListAdapter.
                 image.setImageURI(url);
             }
         }
+
     }
 }
