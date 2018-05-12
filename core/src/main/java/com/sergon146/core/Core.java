@@ -1,5 +1,6 @@
 package com.sergon146.core;
 
+import com.facebook.stetho.okhttp3.StethoInterceptor;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.sergon146.core.api.PictureApiService;
@@ -69,6 +70,7 @@ public class Core {
         return new OkHttpClient.Builder()
                 .connectTimeout(20, TimeUnit.SECONDS)
                 .addInterceptor(createHttpInterceptor())
+                .addNetworkInterceptor(new StethoInterceptor())
                 .readTimeout(20, TimeUnit.SECONDS)
                 .connectionSpecs(Collections.singletonList(createConnectionSpec()))
                 .connectionPool(new ConnectionPool(5, 30, TimeUnit.SECONDS));

@@ -52,4 +52,6 @@ dependencies {
     implementation 'org.parceler:parceler-api:1.1.10'
     annotationProcessor "org.parceler:parceler:1.0.3"
     api 'com.github.pwittchen:reactivenetwork-rx2:0.12.3'
+    //stetho
+    implementation 'com.facebook.stetho:stetho-okhttp3:1.5.0'
 }
