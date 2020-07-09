@@ -47,6 +47,7 @@ public class App extends Application implements HasActivityInjector {
         Fresco.initialize(this);
 
         //some changes
+        //some chages from reset soft
     }
 
     private void initCore() {
