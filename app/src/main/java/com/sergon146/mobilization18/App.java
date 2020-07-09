@@ -57,6 +57,9 @@ public class App extends Application implements HasActivityInjector {
         Stetho.initializeWithDefaults(this);
         Fresco.initialize(this);
 
+        //code in dev branch
+        //we want rebase
+
         //some changes
         //some chages 2
     }
