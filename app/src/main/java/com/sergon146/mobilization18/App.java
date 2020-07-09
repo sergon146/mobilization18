@@ -63,6 +63,8 @@ public class App extends Application implements HasActivityInjector {
         Core core = Core.initInstance(res.getString(R.string.pixbay_base_url),
                 res.getString(R.string.pixbay_api_key));
         core.initApi();
+
+        //some code
     }
 
     @Override
