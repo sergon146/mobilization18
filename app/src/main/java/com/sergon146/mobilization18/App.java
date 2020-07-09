@@ -45,6 +45,8 @@ public class App extends Application implements HasActivityInjector {
         AppInjector.init(this);
         initCore();
         Fresco.initialize(this);
+
+        //some changes
     }
 
     private void initCore() {
